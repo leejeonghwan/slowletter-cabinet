@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제8회 임시 국무회의 브리핑 (2026-03-05)</title>
+<style>
+:root {
+  --bg: #fdad00; --card: #fff; --text: #1a1a1a; --sub: #555;
+  --accent: #1d4ed8; --accent2: #7c3aed; --border: #e5e7eb;
+  --green: #059669; --amber: #d97706;
+  --pres: #1e3a5f; --resp: #4a5568;
+  --sidebar-width: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.8;
+  font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; right: 0;
+  width: var(--sidebar-width); height: 100vh;
+  background: #1c1917; color: #e7e5e4;
+  padding: 1.5rem 1.2rem;
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto;
+}
+.sidebar .brand { font-size: 1.1rem; font-weight: 700; color: #fdad00; margin-bottom: 0.25rem; }
+.sidebar .brand-sub { font-size: 0.75rem; color: #a8a29e; margin-bottom: 1.2rem; letter-spacing: 0; }
+.sidebar .divider { border: none; border-top: 1px solid #333; margin: 1rem 0; }
+.sidebar .nav-label { font-size: 0.7rem; color: #a8a29e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.sidebar .nav-link {
+  display: block; padding: 0.55rem 0.8rem; margin-bottom: 0.3rem;
+  border-radius: 6px; font-size: 0.85rem; color: #e7e5e4;
+  text-decoration: none; transition: background 0.15s;
+}
+.sidebar .nav-link:hover { background: #333; }
+.sidebar .nav-link.active { background: #fdad00; color: #1c1917; font-weight: 600; }
+.sidebar-footer { margin-top: auto; font-size: 0.65rem; color: #57534e; }
+.sidebar-toggle {
+  display: none; position: fixed; top: 0.75rem; right: 0.75rem;
+  z-index: 200; background: #1c1917; color: #fdad00;
+  border: none; border-radius: 6px; padding: 0.5rem 0.7rem;
+  font-size: 1.1rem; cursor: pointer;
+}
+
+.main { margin-right: var(--sidebar-width); }
+
+.masthead {
+  background: linear-gradient(135deg, #111 0%, #1e293b 100%);
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+}
+.masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
+.masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
+.masthead .meta { font-size: 13px; opacity: .7; }
+.masthead .lead {
+  margin-top: 18px; font-size: 15px; opacity: .9; line-height: 1.65;
+  max-width: 640px;
+}
+
+.stats {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
+  max-width: 760px; margin: 0 auto;
+}
+.stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
+
+.container { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+
+.note {
+  background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px;
+  padding: 12px 16px; margin-bottom: 20px; font-size: 12px; color: #92400e; line-height: 1.6;
+}
+.note a { color: #92400e; font-weight: 600; }
+
+.search { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 8px 0 12px; }
+.search input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; outline: none;
+}
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
+
+/* Topic card */
+.topic {
+  background: var(--card); border-radius: 10px; margin-bottom: 14px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.topic:hover { box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+.topic-head {
+  padding: 16px 18px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px;
+  /* user-select: auto for drag */
+}
+.topic-info { flex: 1; }
+.topic-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 0; line-height: 1.5; }
+.topic-chevron { font-size: 18px; color: #bbb; transition: transform .2s; margin-top: 2px; flex-shrink: 0; }
+.topic.open .topic-chevron { transform: rotate(90deg); }
+.topic-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+.topic.open .topic-body { display: block; }
+
+/* Summary */
+.summary {
+  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+}
+
+/* Exchange (대통령 발언 + 부처 답변) */
+.exchanges { margin: 14px 0; }
+.ex-label { font-size: 11px; font-weight: 700; color: var(--pres); letter-spacing: .5px; margin-bottom: 8px; }
+.exchange { margin-bottom: 10px; }
+.ex-pres {
+  background: #f0f4ff; border-left: 3px solid var(--pres);
+  padding: 10px 14px; border-radius: 0 6px 6px 0;
+  font-size: 13.5px; color: #1e3a5f; line-height: 1.7;
+}
+.ex-pres .role { font-weight: 700; font-size: 11px; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+.ex-resp {
+  background: #f8faf8; border-left: 3px solid #94a3b8;
+  padding: 10px 14px; margin-top: 2px; border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--resp); line-height: 1.7;
+}
+.ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+
+/* Actions */
+.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
+.actions ul { margin: 0; padding-left: 18px; }
+.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
+.actions li strong { color: var(--text); }
+
+/* Summary bullets */
+.summary ul { margin: 0; padding-left: 18px; }
+.summary li { margin-bottom: 4px; }
+
+.footer { text-align: left; padding: 36px 16px; color: #aaa; font-size: 11px; line-height: 1.7; max-width: 760px; margin: 0 auto; }
+.footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: block; }
+  .main { margin-right: 0; }
+  .masthead h1 { font-size: 19px; }
+  .stats { gap: 14px; }
+  .summary { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <a href="https://slownews.kr" target="_blank" rel="noopener" style="text-decoration:none;">
+    <div class="brand">슬로우레터</div>
+  </a>
+  <div class="brand-sub">국무회의 브리핑.</div>
+  <hr class="divider">
+  <div class="nav-label">회의록</div>
+  <div id="meeting-nav"><!-- meetings.json에서 자동 로딩 --></div>
+  <hr class="divider">
+  <a class="nav-link" href="./">빠른 검색</a>
+  <div class="sidebar-footer">
+    <hr class="divider">
+    <span style="color:#fdad00;">slownews.kr</span>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+
+<div class="masthead">
+  <div class="label">국무회의 브리핑</div>
+  <h1>제8회 임시 국무회의.</h1>
+  <div class="meta">2026년 3월 5일, 서울 용산 대통령실.</div>
+  <div class="lead">
+    미·이스라엘 대이란 공격 6일째, 호르무즈 해협 봉쇄 상황에서 긴급 임시 국무회의를 소집했다. 금융시장·에너지·재외국민 보호 3축 비상 대응 체계를 점검하고, 석유류 최고가격 지정과 매점매석 단속을 지시했다. 위기를 기회로 전환하는 자본시장 체질 개선과 재생에너지 전환 가속화를 주문했다.
+  </div>
+</div>
+
+<div class="stats">
+  <div><span class="v">7</span>주요 안건</div>
+  <div><span class="v">22</span>지시·결정 사항</div>
+  <div><span class="v">17</span>주요 워딩</div>
+</div>
+
+<div class="container">
+
+<div class="note">
+  회의 영상을 AI 에이전트로 분석·요약하고 데스킹을 거쳤습니다.
+  고유명사 등 일부 표기가 부정확할 수 있습니다.
+  발언은 최대한 원문을 그대로 인용하되, 문답으로 구성하는 과정에서 표현을 다듬었습니다.
+  <a href="" target="_blank">원본 영상 보기 ▶</a>
+</div>
+
+<div class="search">
+  <input type="text" id="q" placeholder="안건·발언 검색..." oninput="filter(this.value)">
+</div>
+
+<div class="topic open" id="t-opening">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>넘어진 김에 쉬어간다, 위기를 기회로.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>이재명 대통령은 해외 출장에서 돌아온 직후 임시 국무회의를 소집했다.</li><li>&#x27;대한민국은 수없이 많은 위기를 슬기롭게 극복해 왔으며, 넘어진 김에 쉬어간다고 오히려 좋은 기회로 만들 수 있다&#x27;고 했다.</li><li>금융시장 변동성 확대, 에너지 수급·가격 불안정, 매점매석·폭리에 대한 무관용 원칙을 선언했다.</li><li>중동 수출 의존도가 높은 기업과 해운 분야에 대한 실물 경제 영향 최소화를 주문했다.</li><li>&#x27;정부를 믿고 차분하게 일상을 이어가시기 바란다&#x27;고 국민에게 당부하며, 재외국민 안전 확보를 위해 군용기·전세기·육로 등 가능한 모든 수단을 총동원하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"우리 대한민국은 수없이 많은 위기 상황들을 슬기롭게 극복해 왔습니다. 넘어진 김에 쉬어간다고, 오히려 좋은 기회로 만들 수 있다고 확신합니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"국가적 위기 상황을 이용해서 이익을 취해보겠다는 일들이 벌어지는 것 자체가 매우 부끄러운 일입니다. 무관용의 원칙으로 엄중하게 책임을 묻겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"군용기, 전세기, 육로 교통 등 가능한 모든 수단을 총동원하길 바랍니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>전 부처</strong> 금융시장 변동성·에너지 수급·민생물가 3축 비상 대응</li>
+      <li><strong>전 부처</strong> 매점매석·폭리 무관용 단속 — 제재 방안 논의</li>
+      <li><strong>외교부·국방부</strong> 재외국민 안전 — 군용기·전세기·육로 총동원</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-mideast_situation">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>이란 지도부 사망, 호르무즈 봉쇄 6일째.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>외교부 장관이 중동 상황을 보고했다.</li><li>2월 28일 시작된 미·이스라엘 대이란 공격이 6일째 지속 중이며, 트럼프 대통령은 이란 최고 지도자를 포함한 지도부 대부분이 사망했다고 발표했다.</li><li>이란은 호르무즈 봉쇄, 항공·항만 공격으로 글로벌 경제에 타격을 가하려 하고 있다.</li><li>새 최고 지도자로 모스타바 하메네이가 선출될 가능성이 거론된다.</li><li>레바논 헤즈볼라-이스라엘 공방, 이라크 쿠르드족 이란 지상전 보도도 나오고 있다.</li><li>걸프 국가들은 미국과의 안보 협력을 강화하는 추세다.</li><li>중동 지역 한국인 2만여 명을 대상으로 여행경보를 발령했으며, 현재까지 한국인 피해는 없다.</li><li>이란 체류 한국인 173명이 터키로, 바레인·이라크 한국인도 안전 지역으로 대피했다.</li><li>대사급 2명을 단장으로 정부 합동 신속대응팀을 파견하기로 했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">외교부 장관</span><br>"이란 체류 한국인 173명이 터키로 대피했고, 바레인 13명·이라크 2명도 안전한 지역으로 이동했습니다. 대사급 2명을 단장으로 합동 신속대응팀을 오늘 밤 파견합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>외교부</strong> 대사급 합동 신속대응팀 중동 파견</li>
+      <li><strong>외교부</strong> 중동 전역 여행경보 2단계 이상 발령 + 체류 국민 안전 확인</li>
+      <li><strong>동포청</strong> 귀국 교민 심리 지원 전담 창구 설치</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-economy_response">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>코스피 12% 급락, 100조 플러스알파 안정 기금 가동.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>재경부 장관이 경제 분야 대응을 보고했다.</li><li>호르무즈 해협 봉쇄로 두바이유가 80달러 대비 13% 상승했고, 코스피는 전일 12.1% 급락했다.</li><li>다만 금일 오전 반등세를 보이며 심리가 다소 진정되었다.</li><li>환율은 1,476원까지 급등 후 1,460원대로 회복 중이다.</li><li>수출 중소기업 피해 42건이 접수되었고, 호르무즈 인근 선원 186명의 안전을 확보했다.</li><li>건설 근로자 2,592명의 안전 관리 체계도 가동 중이다.</li><li>중동 피해 중소기업에 20.3조 원 정책금융 지원 프로그램을 마련했다.</li><li>100조 원 플러스알파의 채권·단기자금시장 안정기금을 가동하되, 대통령은 &#x27;주가를 억지로 떠받치는 것이 아니라 비정상을 교정하기 위한 것&#x27;이라고 못 박았다.</li><li>민생물가 특별관리품목에 대한 담합·불공정행위 엄단 방침도 밝혔다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">재경부 장관</span><br>"코스피는 어제 12.1% 급락했으나 오늘 오전 반등 중입니다. 100조 원 플러스알파 안정기금과 20.3조 원 중소기업 지원 프로그램을 가동합니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"100조 원 플러스알파는 채권시장·단기자금시장용이지, 주가를 억지로 지지하려는 게 아닙니다. 그렇게 하면 안 됩니다."</div>
+        <div class="ex-resp"><span class="role">금융위원장</span><br>"구조적 문제 없는데 일시적 비정상 발생 시 교정하기 위한 것입니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>재경부</strong> 100조 원+ 채권·단기자금시장 안정기금 운영</li>
+      <li><strong>재경부·중기부</strong> 중동 피해 중소기업 20.3조 원 정책금융 지원</li>
+      <li><strong>재경부</strong> 민생물가 특별관리품목 담합·불공정행위 엄단</li>
+      <li><strong>해수부</strong> 호르무즈 인근 선원 186명 안전 확보 + 선용품 보급</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-oil_price">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>석유 최고가격 지정, 바가지 행위에 철퇴.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>대통령은 주유소 석유류 가격 폭등에 강한 문제의식을 표했다.</li><li>&#x27;실제 원가에 반영되기도 전에 소비자 가격이 폭등하는 것은 바가지&#x27;라고 규정했다.</li><li>재경부 장관은 오늘 오후 최고가격 지정을 검토하고, 공정위 담합 조사, 매점매석 형사처벌까지 가동하겠다고 답했다.</li><li>물가안정법 2조에 따라 최고가격 지정 시 부당이득 전액을 과징금으로 환수할 수 있다.</li><li>산업부 장관은 범부처 석유시장 점검단을 강화해 품질 위반·가짜 석유·정량 위반에 대한 사업정지를 시행하겠다고 보고했다.</li><li>대통령은 &#x27;가짜 석유 판매 시 사업정지 3개월이 아니라 6개월~1년, 퇴출까지 해야 한다&#x27;고 했다.</li><li>혁신법원장은 주유소 매입가격 공개를 제안했고, 대통령은 가격 비교 사이트 구축과 최고가격 지정을 병행하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"실제 원가에 반영되기도 전에 소비자 가격이 폭등하는 것은 국민의 고통을 악용하는 바가지입니다. 옛날에 했냐 안 했냐는 중요한 게 아니고, 법에 있는 제도를 잘 활용합시다."</div>
+        <div class="ex-resp"><span class="role">재경부 장관</span><br>"오늘 오후 가격 점검해서 최고가격 지정, 담합 조사, 매점매석 시정 조치와 형사처벌까지 가동하겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"가짜 석유 팔면 한두 달 정지가 아니라 6개월 1년, 퇴출을 시켜야 되는 거 아닙니까?"</div>
+        <div class="ex-resp"><span class="role">산업부 장관</span><br>"범부처 석유시장 점검단을 강화해서 품질 위반·가짜 석유·정량 위반에 대해 사업정지를 시행하겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">혁신법원장</span><br>"최고가격 지정보다 주유소 매입가격을 공개하면 폭리를 취하는지 알 수 있어 더 효과적일 수 있습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"가격 비교 사이트도 만들고, 최고가격 지정도 너무 망설이지 말고 하십시오. 손해 보게 할 일은 없습니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>재경부</strong> 석유류 최고가격 지정 — 물가안정법 2조 적용</li>
+      <li><strong>공정위</strong> 주유소 가격 담합 조사 — 가격 높은 지역 우선</li>
+      <li><strong>산업부</strong> 범부처 석유시장 점검단 강화 + 가짜석유·정량 위반 단속</li>
+      <li><strong>재경부</strong> 주유소 매입가격 공개 + 가격 비교 사이트 구축</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-energy_reserve">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>석유 비축 208일분, 천연가스 11월까지.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>산업부 장관이 에너지 수급 현황을 보고했다.</li><li>석유 비축량은 IEA 권고 기준 90일의 2.3배인 208일분이며, 전 세계 3~5위 수준이다.</li><li>천연가스는 카타르산 물량이 중단되더라도 호주·미국·말레이시아 등 다양한 공급원으로 11월 하순까지 사용 가능하다.</li><li>비축유 세부 방출 계획을 수립 중이며, 수급 위기 악화 시 즉시 대응하기로 했다.</li><li>대통령은 &#x27;완전 제한돼도 7개월 동안 사용에 문제가 없다&#x27;며 국민 안심을 당부하고, 비축유를 적절히 운영해 시중 부족이 없도록 하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"완전 제한돼도 7개월 동안 쓰는 데 문제가 없다는 거잖아요?"</div>
+        <div class="ex-resp"><span class="role">산업부 장관</span><br>"그렇습니다. IEA 기준 208일분, 전 세계 3~5위 수준입니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"비축유도 위기 상황을 대비한 거니까 시중에 부족함이 없도록 잘 운영하길 바랍니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>산업부</strong> 비축유 세부 방출 계획 수립 — 수급 위기 시 즉시 대응</li>
+      <li><strong>산업부</strong> 중동 외 에너지 공급원(호주·미국·말레이시아) 물량 확보 추진</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-capital_market">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>코스피 48% 올랐다 18% 빠졌다, 체질 개선의 기회.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>금융위원장이 자본시장 현황을 보고했다.</li><li>올해 2월까지 한국 증시는 주요국 중 최고인 48.2% 상승 후 18.4% 조정을 받았다.</li><li>외국인·기관이 매도세를 주도했으나 개인이 받아줬고, 외국인은 장 막판 저가 매수로 순매수 전환했다.</li><li>증권사 리서치센터장들은 &#x27;밸류에이션과 기업 실적은 바뀐 게 없다&#x27;며 일관된 정책 추진을 주문했다.</li><li>대통령은 &#x27;주식시장은 공포와 욕망을 이겨내느냐로 결판나며, 결국 실체에 수렴한다&#x27;고 했다.</li><li>이번 기회에 지배구조 개선, 불공정거래 근절, 주가 조작 근절, 코스닥 정비 등 자본시장 체질 개선을 가속하라고 주문했다.</li><li>상속 대비 주가 억압 시정 입법, 통정매매 근절, 가짜 정보 유포 처벌 등 해야 할 일이 &#x27;엄청나게 많다&#x27;고 강조했다.</li><li>화석연료 의존도를 최소화하고 재생에너지 전환을 가속하라고 지시했다.</li><li>전기요금 차등제의 현실적 도입도 검토하라고 했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"주식시장은 공포와 욕망을 누가 잘 이겨내느냐로 결판난다고 하잖아요. 냉정하게 객관적으로 평가하면 결국은 실체에 수렴합니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"대한민국 주식시장이 전 세계적으로 저평가되어 있다는 건 온 동네가 다 아는 건데, 이번 기회에 정상화를 가속해야 합니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"화석연료 의존도를 최소한으로 내리고 재생에너지 비중을 계속 높여야 됩니다. 이번에 모두가 그 필요성을 느끼는 거 아닙니까?"</div>
+        <div class="ex-resp"><span class="role">산업부·재경부</span><br>"이번 기회에 인식도 바꾸고 의존도를 최소화하는 방향으로 가속하겠습니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>금융위</strong> 자본시장 체질 개선 가속 — 지배구조·불공정거래·주가조작 근절</li>
+      <li><strong>금융위</strong> 상속 대비 주가 억압 시정 입법 추진</li>
+      <li><strong>금융위</strong> 시장 교란·가짜뉴스 무관용 엄단</li>
+      <li><strong>산업부·기후에너지부</strong> 재생에너지 전환 가속화 + 전기요금 차등제 검토</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-defense">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>안보의 핵심은 싸울 필요가 없게 만드는 것.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>국방부 장관이 군 대응 현황을 보고했다.</li><li>24시간 위기대응 체계를 가동하고, 교민 철수 요청 시 군 수송기를 즉각 출동할 수 있도록 준비태세를 강화했다.</li><li>해파 부대는 영내 안전대책과 방호시설 준비태세를 강화했으며, 한미 연합방위태세도 긴밀히 공조 중이다.</li><li>대통령은 &#x27;안보의 핵심은 상대를 자극해서 싸워서 이기는 게 아니라 싸울 필요가 없게 만드는 평화 체제 구축&#x27;이라고 강조했다.</li><li>마지막으로 &#x27;국가적 어려움에 정치가 도움이 되어야 하는데 정치적 혼란이 국민을 더 힘들게 해서는 안 된다&#x27;며 여야 협력을 촉구했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">국방부 장관</span><br>"24시간 위기대응 체계 가동 중이며, 교민 철수 요청 시 군 수송기 즉각 출동 준비가 되어 있습니다. 한미 긴밀히 공조하고 있습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"안보의 핵심은 상대를 자극해서 싸워서 이기는 게 아니고, 싸울 필요가 없게 만드는 평화 체제를 구축하는 게 가장 확실한 안보 아니겠습니까?"</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>국방부</strong> 24시간 위기대응 체계 + 군 수송기 즉각 출동 준비</li>
+      <li><strong>국방부</strong> 해파 부대 영내 안전대책·방호시설 강화</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="footer">
+  Lilys AI 트랜스크립트 기반 · 87개 세그먼트 · 20,761자 분석<br>
+  요약은 AI가, 편집 판단은 사람이 합니다<br>
+  <a href="" target="_blank">원본 영상 전체 보기 ▶</a>
+</div>
+</div>
+
+</div><!-- /.main -->
+
+<script>
+function filter(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.topic').forEach(el => {
+    el.style.display = (!q || el.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+}
+</script>
+<script src="js/sidebar-loader.js"></script>
+</body>
+</html>

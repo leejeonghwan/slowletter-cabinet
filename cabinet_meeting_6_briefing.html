@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제6회 국무회의 브리핑 (2026-02-24)</title>
+<style>
+:root {
+  --bg: #fdad00; --card: #fff; --text: #1a1a1a; --sub: #555;
+  --accent: #1d4ed8; --accent2: #7c3aed; --border: #e5e7eb;
+  --green: #059669; --amber: #d97706;
+  --pres: #1e3a5f; --resp: #4a5568;
+  --sidebar-width: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.8;
+  font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; right: 0;
+  width: var(--sidebar-width); height: 100vh;
+  background: #1c1917; color: #e7e5e4;
+  padding: 1.5rem 1.2rem;
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto;
+}
+.sidebar .brand { font-size: 1.1rem; font-weight: 700; color: #fdad00; margin-bottom: 0.25rem; }
+.sidebar .brand-sub { font-size: 0.75rem; color: #a8a29e; margin-bottom: 1.2rem; letter-spacing: 0; }
+.sidebar .divider { border: none; border-top: 1px solid #333; margin: 1rem 0; }
+.sidebar .nav-label { font-size: 0.7rem; color: #a8a29e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.sidebar .nav-link {
+  display: block; padding: 0.55rem 0.8rem; margin-bottom: 0.3rem;
+  border-radius: 6px; font-size: 0.85rem; color: #e7e5e4;
+  text-decoration: none; transition: background 0.15s;
+}
+.sidebar .nav-link:hover { background: #333; }
+.sidebar .nav-link.active { background: #fdad00; color: #1c1917; font-weight: 600; }
+.sidebar-footer { margin-top: auto; font-size: 0.65rem; color: #57534e; }
+.sidebar-toggle {
+  display: none; position: fixed; top: 0.75rem; right: 0.75rem;
+  z-index: 200; background: #1c1917; color: #fdad00;
+  border: none; border-radius: 6px; padding: 0.5rem 0.7rem;
+  font-size: 1.1rem; cursor: pointer;
+}
+
+.main { margin-right: var(--sidebar-width); }
+
+.masthead {
+  background: linear-gradient(135deg, #111 0%, #1e293b 100%);
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+}
+.masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
+.masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
+.masthead .meta { font-size: 13px; opacity: .7; }
+.masthead .lead {
+  margin-top: 18px; font-size: 15px; opacity: .9; line-height: 1.65;
+  max-width: 640px;
+}
+
+.stats {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
+  max-width: 760px; margin: 0 auto;
+}
+.stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
+
+.container { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+
+.note {
+  background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px;
+  padding: 12px 16px; margin-bottom: 20px; font-size: 12px; color: #92400e; line-height: 1.6;
+}
+.note a { color: #92400e; font-weight: 600; }
+
+.search { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 8px 0 12px; }
+.search input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; outline: none;
+}
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
+
+/* Topic card */
+.topic {
+  background: var(--card); border-radius: 10px; margin-bottom: 14px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.topic:hover { box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+.topic-head {
+  padding: 16px 18px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px;
+}
+.topic-info { flex: 1; }
+.topic-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 0; line-height: 1.5; }
+.topic-chevron { font-size: 18px; color: #bbb; transition: transform .2s; margin-top: 2px; flex-shrink: 0; }
+.topic.open .topic-chevron { transform: rotate(90deg); }
+.topic-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+.topic.open .topic-body { display: block; }
+
+/* Summary */
+.summary {
+  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+}
+
+/* Exchange */
+.exchanges { margin: 14px 0; }
+.ex-label { font-size: 11px; font-weight: 700; color: var(--pres); letter-spacing: .5px; margin-bottom: 8px; }
+.exchange { margin-bottom: 10px; }
+.ex-pres {
+  background: #f0f4ff; border-left: 3px solid var(--pres);
+  padding: 10px 14px; border-radius: 0 6px 6px 0;
+  font-size: 13.5px; color: #1e3a5f; line-height: 1.7;
+}
+.ex-pres .role { font-weight: 700; font-size: 11px; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+.ex-resp {
+  background: #f8faf8; border-left: 3px solid #94a3b8;
+  padding: 10px 14px; margin-top: 2px; border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--resp); line-height: 1.7;
+}
+.ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+
+/* Actions */
+.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
+.actions ul { margin: 0; padding-left: 18px; }
+.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
+.actions li strong { color: var(--text); }
+
+/* Summary bullets */
+.summary ul { margin: 0; padding-left: 18px; }
+.summary li { margin-bottom: 4px; }
+
+.footer { text-align: left; padding: 36px 16px; color: #aaa; font-size: 11px; line-height: 1.7; max-width: 760px; margin: 0 auto; }
+.footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: block; }
+  .main { margin-right: 0; }
+  .masthead h1 { font-size: 19px; }
+  .stats { gap: 14px; }
+  .summary { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <a href="https://slownews.kr" target="_blank" rel="noopener" style="text-decoration:none;">
+    <div class="brand">슬로우레터</div>
+  </a>
+  <div class="brand-sub">국무회의 브리핑.</div>
+  <hr class="divider">
+  <div class="nav-label">회의록</div>
+  <div id="meeting-nav"><!-- meetings.json에서 자동 로딩 --></div>
+  <hr class="divider">
+  <a class="nav-link" href="./">빠른 검색</a>
+  <div class="sidebar-footer">
+    <hr class="divider">
+    <span style="color:#fdad00;">slownews.kr</span>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+
+<div class="masthead">
+  <div class="label">국무회의 브리핑</div>
+  <h1>제6회 국무회의.</h1>
+  <div class="meta">2026년 2월 24일, 서울 용산 대통령실.</div>
+  <div class="lead">
+    브라질 룰라 대통령 21년 만의 국빈 방문으로 전략적 동반자 관계를 격상했다. 해외 관광객 1900만명 시대를 맞아 지방 중심 관광산업 구조 전환을 주문했다. 공직자들의 문책 공포를 덜어주는 정책결정 방식 개선, 인구 감소 지역 활성화를 위한 기본소득 확대를 논의했다.
+  </div>
+</div>
+
+<div class="stats">
+  <div><span class="v">8</span>주요 안건</div>
+  <div><span class="v">16</span>지시·결정 사항</div>
+  <div><span class="v">19</span>주요 워딩</div>
+</div>
+
+<div class="container">
+
+<div class="note">
+  회의 영상을 AI 에이전트로 분석·요약하고 데스킹을 거쳤습니다.
+  고유명사 등 일부 표기가 부정확할 수 있습니다.
+  발언은 최대한 원문을 그대로 인용하되, 문답으로 구성하는 과정에서 표현을 다듬었습니다.
+  <a href="#" target="_blank">원본 영상 보기 ▶</a>
+</div>
+
+<div class="search">
+  <input type="text" id="q" placeholder="안건·발언 검색..." oninput="filter(this.value)">
+</div>
+
+<!-- 1. 브라질 국빈 방문 -->
+<div class="topic open" id="t-opening">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>21년 만의 브라질 국빈 방문, 민주주의의 연대.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">이재명 대통령은 모두발언에서 21년 만에 국빈 방문한 브라질 룰라 대통령과의 회담 성과를 보고했다. 양국 관계를 전략적 동반자 관계로 격상하고 구체적인 로드맵에 합의했다. 민주주의 위기를 슬기롭게 이겨낸 경험을 공유한 양국 국민의 우정과 연대가 양국 공동 번영의 토대가 될 것이라 강조했다. 2026년 밀라노 코르티나 동계올림픽이 성공적으로 폐막했으며, 우리 선수단의 뜨거운 도전이 국민들에게 큰 감동과 자부심을 주었다고 평가했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"21년 만에 국빈 방한한 브라질 룰라 대통령과 양국 관계를 전략적 동반자 관계로 격상하고 구체적인 로드맵에도 합의했습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"민주주의 위기를 슬기롭게 이겨낸 경험을 공유한 우리 두 나라 국민의 우정과 연대는 앞으로 더욱 굳건해지고, 양국 공동의 번영을 위한 든든한 토대가 될 것입니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>외교부</strong> 한-브라질 전략적 동반자 관계 구체적 로드맵 이행</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- 2. 동계올림픽 -->
+<div class="topic" id="t-olympics">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>동계올림픽 성공 평가, 북중미 월드컵 국민 참여 확대.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">대통령은 2026 밀라노 코르티나 동계올림픽의 성과를 평가했다. 우리 선수단 모두의 뜨거운 도전이 국민들에게 큰 감동과 자부심을 주었으며, 스포츠 외교 측면에서도 값진 성과가 있었다고 강조했다. 한편으로 우리 선수들의 투지와 활약에도 불구하고, 과거 국제대회에 비교하면 사회적 열기가 충분히 고조되지 못했던 아쉬움을 지적했다. 오는 6월 북중미 월드컵 개최를 앞두고, 국제적 행사에 대한 국민들의 접근성을 폭넓게 보장하는 제도 개선이 필요하다고 주문했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"우리 선수단 모두의 뜨거운 도전은 국민들에게 큰 감동과 자부심을 주었습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"과거 국제대회에 비교하면 사회적인 열기가 충분히 고조되지 못했던 아쉬움이 있습니다. 오는 6월에는 북중미 월드컵도 예정되어 있습니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>문화체육관광부</strong> 국제행사 국민 접근성 제도 개선 추진</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- 3. K-관광 -->
+<div class="topic" id="t-tourism">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>K-컬처 열풍, 해외 관광객 1900만명 시대 개막.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">대통령은 관광산업의 획기적 성장을 보고했다. K-컬처의 세계적 열풍에 힘입어 지난해 우리나라를 찾은 해외 관광객이 1900만 명에 육박하며 사상 최고치를 경신했다. 그러나 관광객의 80%가 서울에 편중되는 불균형이 존재하므로, 지방 주도, 지방 중심의 관광 산업 대전환이 시급하다고 강조했다. 지역 맞춤형 관광 상품 개발과 함께 교통, 숙박, 쇼핑, 결제에 이르기까지 고질적 불편을 해소하고, 바가지요금·과도한 호객행위 같은 시대착오적 악습을 근절할 필요가 있다고 지적했다. 전국이 함께 만드는 K-관광 강국 대한민국을 실현하기 위해 중앙과 지방, 민과 관의 적극적 협력을 당부했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"K-컬처의 세계적인 열풍에 힘입어 지난해 우리나라를 찾은 해외 관광객이 1900만 명에 육박하며 사상 최고치를 경신했습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"관광객의 80%가 서울에 편중되는 불균형에서 벗어나야 합니다. 지방 주도, 지방 중심의 관광 산업 대전환이 이루어지면 좋겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"지역 맞춤형 관광 상품 개발과 함께 교통, 숙박, 쇼핑, 결제에 이르기까지 고질적인 불편을 해소하는 데 정책 역량을 모아주시기 바랍니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>문화체육관광부</strong> 지방 중심 관광산업 대전환 — 지역 맞춤형 상품 개발</li>
+      <li><strong>문화체육관광부</strong> 관광 인프라 개선 — 교통·숙박·쇼핑·결제 고질적 불편 해소</li>
+      <li><strong>전 부처</strong> 바가지요금·호객행위 근절 합동 단속</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- 4. 공직문화 -->
+<div class="topic" id="t-civil_service">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>문책 공포에서 해방, 지시사항으로 책임을 진다.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">대통령은 공직문화 개선을 강조하면서, 공무원들이 부담하는 '책임·문책'의 두려움을 덜어야 한다고 당부했다. 청와대 업무량이 역대 최고 수준이라는 보도에 대해, 위기 비상상황에서 고위공직자들의 헌신이 필수적이라고 언급했다. 공직자들이 최종안을 만들어오면서 눈치를 보고, 나중에 문제되지 않을까 걱정하는 관행을 지적했다. 이를 해결하기 위해 지시사항으로 작성해 주거나, 복수안(A안, B안, C안) 중에서 선택하는 방식을 제안했다. 지시사항에 따라 일한 공무원은 면책되고, 선택 책임은 상급자가 지는 방식으로 실무자들의 심리적 부담을 경감시킬 수 있다고 강조했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"우리 공직자, 특히 고위공직자들의 손에 국가의 운명이 달려 있습니다. 지금은 위기 비상상황이라 모든 시간을 갈아 넣어도 부족할 정도입니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"부처 내에 공직자들이 어려움이 좀 있습니다. 그게 뭐냐면 책임이죠. 책임. 문책. 잘 안 하려는 그런 풍토가 생겼습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"지시사항으로 써주세요. 공무원들은 지시사항에 따라서 일한 것은 문책당하지 않거든요. 면책되기 때문에 확실하게 내가 책임진다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"복수의 안이 있을 수 있죠. A안, B안, C안. 그걸 복수로 써오게 한다면 선택하세요. 선택하면 장관의 책임 아닙니까?"</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>전 부처</strong> 공직자 문책 공포 해소 — 지시사항·복수안 활용 정책결정</li>
+      <li><strong>국무조정실</strong> 공직문화 개선 제도 마련 및 선례 확산</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- 5. 농어촌 기본소득 -->
+<div class="topic" id="t-rural_income">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>인구 감소 지역 활성화, 농어촌 기본소득 확대.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">행안부, 농식품부, 기후에너지부가 인구 감소 지역 인구 증감 분석을 보고했다. 지방으로 인구 유입을 높이기 위해 농어촌 지역에 월 15만원 상당의 지역사랑 상품권을 지급하는 사업을 추진 중이다. 지난 2022~2024년 경기도 연천군 청산면에서 시작하여, 남해군, 순창군, 신안군, 청양군 등 지역에서 새로운 일자리 창출과 소상공인 창업이 이루어졌다. 대통령은 햇빛 소독마을 사업, 태양광 발전을 통한 농민 소득 창출 등 대체 에너지 활용을 강조했다. 수도권에서 멀수록 지원을 늘리는 원칙을 더욱 강화하고, 농어촌 기본소득의 확대 방안을 적극 검토하라고 지시했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"월 15만원 상당의 지역사랑 상품권을 지급하면서 큰 효과를 보이고 있습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"햇빛 소독마을을 통해서 지방으로 인구 유입을 높일 수 있도록 최선을 다하겠습니다."</div>
+        <div class="ex-resp"><span class="role">기후에너지부</span><br>"송전망을 신속하게 깔아서 지역 맞춤형 에너지 정책을 추진하겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"수도권에서 또 대도시에서 멀수록 지원을 늘린다는 원칙도 보완이 필요해 보입니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>행안부·농식품부·기후부</strong> 인구 감소 지역 기본소득 확대 사업 추진</li>
+      <li><strong>기후에너지부</strong> 태양광 발전 등 대체 에너지 활용 확대 — 송전망 구축 가속화</li>
+      <li><strong>행안부</strong> 지역소비 활성화 — 지역사랑 상품권 확대</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- 6. 형사 미성년자 -->
+<div class="topic" id="t-juvenile_law">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>형사 미성년자 기준 연령 하향, 선도·보호·복지 통합 접근.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">법무부가 형사 미성년자 제도 개선을 보고했다. 형사 미성년자의 범죄가 증가하고 양상이 흉포화되면서, 제도를 악용하는 사례까지 지속되고 있다. 22대 국회에서 형사 미성년자 기준 연령을 현행 10세에서 하향 조정하는 방향으로 논의 중이며, 이는 국제적 추세와 일치한다. 대통령은 각국이 연령을 낮추더라도 형량으로만 다루지 않고, 선도·보호·복지를 함께 추진하는 추세를 강조했다. 범죄를 저지른 청소년에 대해 단순 처벌이 아닌 재사회화를 목표로 하는 통합적 접근이 필요하다고 강조했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"형사 미성년자의 범죄가 증가하고 그 양상도 흉포화되며, 제도를 악용하는 사례까지 계속 발생하여 형사 미성년자 제도의 문제점에 대한 지적이 있어 왔습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"최근에 각 나라들이 조금씩 연령을 낮추는 추세에 있습니다. 그런데 낮추더라도 꼭 형량으로만 다루려고 하지 않고 선도, 보호, 복지 이런 것들을 함께 해서 해나가려고 합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>법무부</strong> 형사 미성년자 기준 연령 하향 조정 입법 추진</li>
+      <li><strong>법무부·보건복지부</strong> 청소년 범죄자 재사회화 프로그램 — 선도·보호·복지 통합 추진</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- 7. 농산물 관세 -->
+<div class="topic" id="t-agriculture">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>농산물 할당 관세제도 투명화, 부정수급 특별 단속.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">농림축산식품부가 농산물 할당 관세 운영 현황을 보고했다. 할당 관세, 할인 지원, 정부 비축 방출 등을 통해 물가 안정을 추진 중이나, 유통 과정에서 이익을 취하는 행위가 발생하고 있다. 대통령은 이러한 부정수급을 절대 용납하지 않겠다고 강조하며, 할당 관세를 중심으로 현장 점검 및 특별 수사를 시행하라고 지시했다. 유통 구조를 집중적으로 살피고, 할당 관세를 받은 대상이 정상가격으로 판매하지 않거나 엔드 유저까지 혜택이 가지 않으면 다시 돈을 내주도록 제도화해야 한다고 주문했다. 위반 시 과징금을 몇 배로 상향하고 대상에서 제외하는 등 제도 강화를 검토하라고 했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"할당 관세를 받아가지고 어디에 공급했는지 제대로 가격이면, 나중에 와서 다시 우리가 돈을 내준다. 이런 정도까지 다시는 못하게 만들어야 돼요."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"제도화해야 된다는 거예요. 제도로 만들어서 제도 설계를 해야 될 것 같습니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>농림축산식품부</strong> 할당 관세 운영 투명성 강화 — 현장 점검·특별 수사 실시</li>
+      <li><strong>농림축산식품부</strong> 할당 관세 혜택 제도화 — 엔드 유저 직접 지원 방식 개선</li>
+      <li><strong>농림축산식품부</strong> 부정수급 적발 시 과징금 강화 및 대상 제외 제도 추진</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- 8. 유네스코 -->
+<div class="topic" id="t-heritage">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>제48차 유네스코 세계유산위원회 부산 개최, 7월 국제 행사.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary">국가유산청이 범부처 사안으로 제48차 유네스코 세계유산위원회 개최를 보고했다. 세계유산위원회는 인류의 소중한 문화·자연유산을 세계유산으로 등재하고 보존 관련 사항을 논의하는 정부 간 위원회다. 우리나라가 세계유산위원회에 가입한 지 38년 만에 처음으로 국내에서 개최되는 역사적 행사다. 개최 도시는 부산이며, 올해 7월 12일부터 29일까지 18일간 진행된다. 대통령은 세부적 내용은 각 부처와 국가유산청이 협력하여 준비하되, 비공개 회의로 부처별 협력 사항을 논의하기로 했다.</div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"세계유산위원회는 인류의 소중한 문화, 자연유산을 세계유산으로 등재하고 보존 관련 사항을 논의하는 정부 간 위원회로서, 우리나라가 세계유산위원회에 가입한 지 38년 만에 처음으로 국내에서 개최됩니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>국가유산청</strong> 제48차 유네스코 세계유산위원회 부산 개최 준비 — 부처 협력 추진</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="footer">
+  Lilys AI 트랜스크립트 기반 · 208개 세그먼트 · 38,594자 분석<br>
+  요약은 AI가, 편집 판단은 사람이 합니다<br>
+  <a href="#" target="_blank">원본 영상 전체 보기 ▶</a>
+</div>
+
+</div><!-- /.container -->
+</div><!-- /.main -->
+
+<script>
+function filter(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.topic').forEach(el => {
+    el.style.display = (!q || el.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+}
+</script>
+<script src="js/sidebar-loader.js"></script>
+</body>
+</html>

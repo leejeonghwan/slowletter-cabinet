@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제5회 국무회의 브리핑 (2026-02-10)</title>
+<style>
+:root {
+  --bg: #fdad00; --card: #fff; --text: #1a1a1a; --sub: #555;
+  --accent: #1d4ed8; --accent2: #7c3aed; --border: #e5e7eb;
+  --green: #059669; --amber: #d97706;
+  --pres: #1e3a5f; --resp: #4a5568;
+  --sidebar-width: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.8;
+  font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; right: 0;
+  width: var(--sidebar-width); height: 100vh;
+  background: #1c1917; color: #e7e5e4;
+  padding: 1.5rem 1.2rem;
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto;
+}
+.sidebar .brand { font-size: 1.1rem; font-weight: 700; color: #fdad00; margin-bottom: 0.25rem; }
+.sidebar .brand-sub { font-size: 0.75rem; color: #a8a29e; margin-bottom: 1.2rem; letter-spacing: 0; }
+.sidebar .divider { border: none; border-top: 1px solid #333; margin: 1rem 0; }
+.sidebar .nav-label { font-size: 0.7rem; color: #a8a29e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.sidebar .nav-link {
+  display: block; padding: 0.55rem 0.8rem; margin-bottom: 0.3rem;
+  border-radius: 6px; font-size: 0.85rem; color: #e7e5e4;
+  text-decoration: none; transition: background 0.15s;
+}
+.sidebar .nav-link:hover { background: #333; }
+.sidebar .nav-link.active { background: #fdad00; color: #1c1917; font-weight: 600; }
+.sidebar-footer { margin-top: auto; font-size: 0.65rem; color: #57534e; }
+.sidebar-toggle {
+  display: none; position: fixed; top: 0.75rem; right: 0.75rem;
+  z-index: 200; background: #1c1917; color: #fdad00;
+  border: none; border-radius: 6px; padding: 0.5rem 0.7rem;
+  font-size: 1.1rem; cursor: pointer;
+}
+
+.main { margin-right: var(--sidebar-width); }
+
+.masthead {
+  background: linear-gradient(135deg, #111 0%, #1e293b 100%);
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+}
+.masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
+.masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
+.masthead .meta { font-size: 13px; opacity: .7; }
+.masthead .lead {
+  margin-top: 18px; font-size: 15px; opacity: .9; line-height: 1.65;
+  max-width: 640px;
+}
+
+.stats {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
+  max-width: 760px; margin: 0 auto;
+}
+.stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
+
+.container { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+
+.note {
+  background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px;
+  padding: 12px 16px; margin-bottom: 20px; font-size: 12px; color: #92400e; line-height: 1.6;
+}
+.note a { color: #92400e; font-weight: 600; }
+
+.search { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 8px 0 12px; }
+.search input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; outline: none;
+}
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
+
+/* Topic card */
+.topic {
+  background: var(--card); border-radius: 10px; margin-bottom: 14px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.topic:hover { box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+.topic-head {
+  padding: 16px 18px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px;
+  /* user-select: auto for drag */
+}
+.topic-info { flex: 1; }
+.topic-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 0; line-height: 1.5; }
+.topic-chevron { font-size: 18px; color: #bbb; transition: transform .2s; margin-top: 2px; flex-shrink: 0; }
+.topic.open .topic-chevron { transform: rotate(90deg); }
+.topic-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+.topic.open .topic-body { display: block; }
+
+/* Summary */
+.summary {
+  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+}
+
+/* Exchange (대통령 발언 + 부처 답변) */
+.exchanges { margin: 14px 0; }
+.ex-label { font-size: 11px; font-weight: 700; color: var(--pres); letter-spacing: .5px; margin-bottom: 8px; }
+.exchange { margin-bottom: 10px; }
+.ex-pres {
+  background: #f0f4ff; border-left: 3px solid var(--pres);
+  padding: 10px 14px; border-radius: 0 6px 6px 0;
+  font-size: 13.5px; color: #1e3a5f; line-height: 1.7;
+}
+.ex-pres .role { font-weight: 700; font-size: 11px; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+.ex-resp {
+  background: #f8faf8; border-left: 3px solid #94a3b8;
+  padding: 10px 14px; margin-top: 2px; border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--resp); line-height: 1.7;
+}
+.ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+
+/* Actions */
+.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
+.actions ul { margin: 0; padding-left: 18px; }
+.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
+.actions li strong { color: var(--text); }
+
+/* Summary bullets */
+.summary ul { margin: 0; padding-left: 18px; }
+.summary li { margin-bottom: 4px; }
+
+.footer { text-align: left; padding: 36px 16px; color: #aaa; font-size: 11px; line-height: 1.7; max-width: 760px; margin: 0 auto; }
+.footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: block; }
+  .main { margin-right: 0; }
+  .masthead h1 { font-size: 19px; }
+  .stats { gap: 14px; }
+  .summary { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <a href="https://slownews.kr" target="_blank" rel="noopener" style="text-decoration:none;">
+    <div class="brand">슬로우레터</div>
+  </a>
+  <div class="brand-sub">국무회의 브리핑.</div>
+  <hr class="divider">
+  <div class="nav-label">회의록</div>
+  <div id="meeting-nav"><!-- meetings.json에서 자동 로딩 --></div>
+  <hr class="divider">
+  <a class="nav-link" href="./">빠른 검색</a>
+  <div class="sidebar-footer">
+    <hr class="divider">
+    <span style="color:#fdad00;">slownews.kr</span>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+
+<div class="masthead">
+  <div class="label">국무회의 브리핑</div>
+  <h1>제5회 국무회의.</h1>
+  <div class="meta">2026년 2월 10일, 서울 용산 대통령실.</div>
+  <div class="lead">
+    설 명절 대비 안전대책과 가축방역 강화를 지시했다. 73년 만의 건조한 날씨로 산불 위험을 경고했다. 입법 속도 촉진과 국회 위증 사건 신속 처리를 강조했다. 지방교부세 산정 기준 공개와 자동화를 지시했다. 조선 산업 노동자 정책과 외국인 노동자 비율 문제를 점검했다. 행정개혁의 작은 변화들의 누적 효과를 강조했다.
+  </div>
+</div>
+
+<div class="stats">
+  <div><span class="v">15</span>주요 안건</div>
+  <div><span class="v">179</span>세그먼트</div>
+  <div><span class="v">42,437</span>자 분석</div>
+</div>
+
+<div class="container">
+
+<div class="note">
+  회의 영상을 AI 에이전트로 분석·요약하고 데스킹을 거쳤습니다.
+  고유명사 등 일부 표기가 부정확할 수 있습니다.
+  발언은 최대한 원문을 그대로 인용하되, 문답으로 구성하는 과정에서 표현을 다듬었습니다.
+</div>
+
+<div class="search">
+  <input type="text" id="search" placeholder="안건 검색..." onkeyup="filterTopics()">
+</div>
+
+<!-- Topic 1: 설 명절 안전대책 -->
+<div class="topic open" data-topic="설 명절 안전대책">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>설 명절 연휴 안전대책 강화</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      이번 주말부터 시작되는 설 명절에 국민이 편안하고 즐겁게 연휴를 보낼 수 있도록 철저한 안전대책 수립을 지시했다. 위급 상황에 대비한 비상대응체계를 이중 삼중으로 점검할 것을 강조했다. 국민 안전에 관한 조치는 지나친 것이 부족함보다 100배 낫다는 입장을 표명했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 모든 관계부처는 국민들께서 편안하게 또 즐겁게 연휴를 보내실 수 있도록 안전대책을 철저하게 수립하고, 또 위급한 상황에 대비해서 비상대응체계를 이중 삼중으로 철저하게 점검해 주시기 바랍니다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 국민 안전에 관한 안, 지나친 것이 모자람보다 100배 낫습니다. 철저하게 대비해 주시기를 부탁드립니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>행정안전부</strong> 명절 기간 비상대응체계 이중 삼중 점검 및 강화</li>
+        <li><strong>경찰청</strong> 교통안전 대책 및 범죄 예방 활동 강화</li>
+        <li><strong>소방청</strong> 산불 등 긴급 상황 대응 태세 점검</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 2: 가축방역 강화 -->
+<div class="topic" data-topic="가축방역">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>설 연휴 가축방역 강화 대책</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      최근 가축전염병 확산으로 농가의 어려움이 크다는 점을 지적했다. 민족 대이동 시기인 만큼 방역 상황이 악화되지 않도록 가축방역기관과 지자체의 역량을 최대한 투입하여 집중할 것을 지시했다. 이는 축산업 보호와 국내 식량 안보 차원의 중요한 조치다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 특히 최근에 가축전염병이 확산이 돼서 농가에 시름이 큽니다. 민족 대이동 시기인 만큼 방역 상황이 악화되지 않게 가축방역기관과 해당 지자체의 역량을 최대한 투입해서 집중해 주시기 바랍니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>농림축산식품부</strong> 가축전염병 확산 방지 차원의 방역 강화</li>
+        <li><strong>지자체</strong> 설 연휴 기간 가축방역기관 역량 투입 극대화</li>
+        <li><strong>농촌진흥청</strong> 농가 피해 최소화를 위한 기술 지원</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 3: 산불 예방 -->
+<div class="topic" data-topic="산불">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>73년 만의 건조한 날씨 속 산불 예방</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      지난 1월이 통계 작성 73년 이래 상대 습도가 가장 낮은 건조한 날씨였다고 경고했다. 산불 발생 가능성이 매우 높고 발생 시 진화가 어렵다는 점을 강조했다. 앞으로도 건조한 상황이 계속될 가능성이 높으므로 산불 예방에 더 힘써야 한다고 지시했다. 국민들에게도 입산과 소각 작업 시 각별한 주의를 당부했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 통계를 작성한 73년 이래 상대 습도가 가장 낮은 건조한 날씨였다고 합니다. 산불 발생 가능성이 훨씬 높고, 또 발생하면 진화하기도 어려운 상황입니다. 앞으로도 이런 상황이 계속될 가능성이 높기 때문에 산불 예방에 더 힘써주시길 바랍니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>산림청</strong> 73년 만의 건조함에 대한 산불 예방 체계 강화</li>
+        <li><strong>지방 경찰청</strong> 산불 위험 지역 순찰 강화</li>
+        <li><strong>국민홍보</strong> 입산 및 소각 시 주의 당부 캠페인 추진</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 4: 입법 속도 촉진 -->
+<div class="topic" data-topic="입법">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>국제 경쟁 시대 입법 속도 촉진</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      국제사회의 불안정성이 높고 국가 간 경쟁이 질서를 무너뜨릴 정도로 치열한 상황에서 국내 단합과 개혁 조치의 중요성을 강조했다. 인공지능 등 기술 진화 속도가 예측을 훨씬 넘어서고 있으므로 현재의 입법 속도로는 국제사회의 변화에 능동적으로 대처하기 어렵다고 지적했다. 여야를 떠난 국익 우선 정치와 입법 신속화를 강력히 요청했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 국제 질서의 변화, 또 인공지능 같은 기술 진화 속도가 우리의 예측을 훨씬 넘어서고 있는 상황입니다. 현재와 같은 입법 속도로는 이런 국제사회의 변화에 능동적으로 대처하기가 매우 어렵습니다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 여야를 떠나서 주권자 국민을 대리하는 공복으로서 하나 된 힘을 발휘하는 국익 우선 정치를 부탁드립니다. 정부도 시급한 입법을 위해서 국회에 더 적극적으로 설득하고 부탁드리겠습니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>정부 전 부처</strong> 국익 관련 주요 입법 안건의 국회 설득 활동 강화</li>
+        <li><strong>노동부, 산업부</strong> 분야별 긴급 입법이 필요한 현안에 대한 국회 설득</li>
+        <li><strong>통상교섭본부</strong> 외국과의 협상 뒷받침 입법 우선 추진</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 5: 청년 정책 협치 -->
+<div class="topic" data-topic="청년 정책">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>여야 정당과의 청년 정책 협치</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      여야 정당의 청년위원장과 정부가 함께 청년 정책 관계 장관 회의를 개최했다. 이는 처음 있는 시도로 정책 협치의 새로운 모델을 제시한다. 이런 정책 협치 시도를 다른 분야로도 확대할 계획을 표명했다. 이번 국회에서 최대한 많은 법안들이 통과될 수 있도록 적극적인 노력을 당부했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">국무총리 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">국무총리</span> 여야 정당의 청년위원장과 정부가 함께 청년 정책 관계 장관 회의를 열었습니다. 처음 있는 시도입니다. 이런 정책 협치 시도를 다른 분야로도 넓혀가겠습니다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">국무총리</span> 이번 국회에서 최대한 많은 법안들이 통과될 수 있도록 장관님들께서 적극 뛰어주시기를 부탁드립니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>여성가족부</strong> 청년 정책 관계 장관 회의의 국회 논의 내용 반영</li>
+        <li><strong>전 부처</strong> 정책 협치 모델 다양한 분야로 확대 추진</li>
+        <li><strong>국무조정실</strong> 여야 정당과의 정책 협력 채널 강화</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 6: 국회 위증 문제 -->
+<div class="topic" data-topic="국회 위증">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>국회 위증 고발 사건 신속 처리</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      민주주의에서 팩트가 중요하다는 점을 강조하고, 국회의 청문회와 국정조사 같은 활동이 진실을 발굴하기 위함이라고 설명했다. 최근 국회의 권위가 훼손될 정도로 명백한 거짓말이나 정당한 이유 없는 불출석이 많다며 우려를 표명했다. 국회 위증 고발 사건들이 적체되고 있으므로 신속한 진위 판단이 필요하다고 지시했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 민주주의에서는 팩트가 중요해요. 국회에서는 진실이 무엇이냐, 팩트가 뭐냐를 발굴하기 위한 각종 행위를 합니다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 국회 위증 고발 사건들이 너무 적체되고 있는 것 같은데, 신속하게 가려줘야 국회가 국회로서의 역할을 하는 데 도움이 될 것 같아요. 각별히 챙겨봐 주시기 바랍니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>법무부</strong> 국회 위증 고발 사건의 신속한 수사 및 처리</li>
+        <li><strong>검찰</strong> 국회 권위 훼손 행위에 대한 엄정한 대응</li>
+        <li><strong>국무조정실</strong> 국회 위증 사건 적체 해소 방안 마련</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 7: 지방교부세 투명화 -->
+<div class="topic" data-topic="교부세">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>지방교부세 산정 기준 공개 및 자동화</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      정부 국세 세입의 약 19.24%를 지방 정부에 나눠주는 교부세의 산정 기준이 너무 복잡해 투명성 부족으로 인한 의심을 초래하고 있다고 지적했다. 공무원의 주관적 판단이 개입될 여지를 차단하기 위해 계산 과정과 기준을 공개하고 자동화할 것을 지시했다. 이를 통해 각 지방정부도 미리 자신이 받을 교부세를 산정할 수 있도록 개선하겠다고 강조했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 정부가 국세 세입으로 들어온 것 중에 19.24%를 떼서 지방 정부에 나눠주는데, 그게 너무 복잡해서 알기가 어렵다. 복잡하다 보니까 자의라는 게 마음대로 하는 그런 요소가 개입할 수가 있다. 차라리 이걸 앞으로는 기준을 정확하게 입력을 해 가지고 기계에 맡겨라.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 행정은 공개가 원칙이니까 투명하게 공개하시고, 아예 기준도 공표하고 자동화해도 되겠네요. 그렇게 하십시오.
+        </div>
+      </div>
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp">
+          <span class="role">행안부 장관</span> 방식이 좀 복잡하다 보니까 그리고 결과만 공개가 되다 보니까 그런 의심을 받게 되는 것 같습니다. 과정과 기준이 공개가 안 되고 있죠.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-resp">
+          <span class="role">행안부 장관</span> 시스템을 개선해서 미리 자기 지역 지방정부가 어느 정도의 교부세를 받을 수 있는지 미리 산정해 볼 수 있을 정도로 기준을 공개하고, 엄정하게 계산해 볼 수 있도록 하겠습니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>행정안전부</strong> 지방교부세 산정 기준 및 계산 과정 공개</li>
+        <li><strong>행정안전부</strong> 교부세 산정 자동화 시스템 구축</li>
+        <li><strong>행정안전부</strong> 각 지방정부 사전 교부세 산정 시뮬레이션 시스템 도입</li>
+        <li><strong>지자체</strong> 수십 년간 지적되어 온 문제 사항 즉시 개선</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 8: 광역형 비자와 외국인 노동자 -->
+<div class="topic" data-topic="비자 외국인">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>광역형 비자 제도와 외국인 노동자 정책</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      지방 광역 정부에 광역형 비자 발급권을 주는 시범 사업에 대해 검토를 지시했다. 울산의 조선업 분야에서 노동자 부족으로 외국인 노동자를 대량 수용하고 있다는 점을 지적했다. 비자 허용 인원 414명 중 실제 채용은 88명 수준이라는 현황을 파악했다. 국가적 통제와 관리 관점에서 이 제도의 지속 필요성을 재검토하도록 지시했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 제가 저번에 울산 타운홀 미팅 갔더니 울산의 조선업 분야의 노동자를 구하기 어려워서 외국 노동자를 데려오게 해놨다고 했어요. 그래서 외국인 노동자 220만 원 주고 채용을 하면 국내 노동자 일자리는 어떻게 되며, 이게 앞으로 조선 산업 발전에 도움이 되겠냐고 생각했습니다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 이게 고용 문제나 이런 거는 국가적 과제인데 특정 지역에 비자 발급본을 줘 가지고, 그 지역에 필요한 노동자들을 데려다 써라. 이렇게 해버리면 국가적 통제 관리가 되겠냐는 의심이 갑자기 들었어요.
+        </div>
+      </div>
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp">
+          <span class="role">노동부 장관</span> 현재 조선 산업 분야 노동자의 30%까지 외국인 노동자를 채용하고 있습니다. 이걸 20%로 낮추는 문제하고 임금을 개선하는 문제를 검토하겠습니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>법무부</strong> 광역형 비자 제도의 필요성 및 효과성 검토</li>
+        <li><strong>노동부</strong> 조선 산업 외국인 노동자 비율을 30%에서 20%로 인하 방안 마련</li>
+        <li><strong>노동부</strong> 외국인 노동자 임금을 최저임금에서 지역별 생활임금 수준으로 상향</li>
+        <li><strong>산업통상자원부</strong> 광역형 비자 시범사업 평가 후 지속 여부 결정</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 9: 조선 산업 생태계 -->
+<div class="topic" data-topic="조선 생태계">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>조선 산업 생태계 기반 강화</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      조선 산업은 국가 정책으로 재정과 외교력을 투입하여 성장시킨 전략 산업이다. 원자력, 방위산업, 반도체, AI 등과 함께 국민 세금이 투입된 분야다. 새로운 성장 영역에서는 기회와 성과물을 공평하게 배분하여 양극화를 줄여나가야 한다고 강조했다. 조선 산업에서 대기업뿐만 아니라 중소기업, 협력기업, 노동자들이 함께 혜택을 받을 수 있는 생태계 구축을 지시했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 우리가 이제 국가 정책으로 특정 산업 분야에 재정도 투자하고 외교력도 집중하고, 국가 역량을 총동원해서 키우잖아요. 그 중에 하나가 조선 산업이란 말이에요. 조선, 원자력도 그렇고, 방위 산업도 그렇고, 반도체든 첨단 기술 AI 다 그렇잖아요.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 성장 발전과 양극화 완화, 공평한 기회라고 하는 것은 동전의 양면처럼 결합되어 있어야 되거든요. 성장의 과실은 상층의 일부가 독식하고 밑에는 더 어려워지고 이렇게 되면 절대 안 되거든요.
+        </div>
+      </div>
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp">
+          <span class="role">산업부 장관</span> 조선업도 대기업 조선소뿐만 아니라 중소기업 조선소들, 부품업체들 같이 조선사 생태계 관점에서 마이스 프로젝트도 진행해서 일부 대기업만 이득을 보는 게 아니라 중소조선사들, 협력기업들, 거기 근무하는 노동자들까지 같이 혜택을 볼 수 있도록 방안을 마련하고 있습니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>산업통상자원부</strong> 조선 산업 생태계 강화를 위한 중소기업·협력기업 지원 확대</li>
+        <li><strong>산업통상자원부</strong> MICE(조선 산업 마스터 플랜) 프로젝트 기반 중소 조선사 경쟁력 강화</li>
+        <li><strong>노동부</strong> 조선 산업 노동자 임금 및 처우 개선</li>
+        <li><strong>중소벤처기업부</strong> 조선 분야 협력기업의 수익성 개선 지원</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 10: 돌봄 사업 국가책임 강화 -->
+<div class="topic" data-topic="돌봄">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>공공 돌봄 사업의 국가 책임 강화</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      돌봄 사업에 대한 국가 책임을 강화하는 방안을 보건부의 보고 전에 미리 논의하기로 했다. 이는 영유아 보육, 노인 장기요양, 아동 돌봄 등 다양한 돌봄 분야에서 정부의 역할을 확대하고, 국민 삶의 질 향상을 추구하는 정책 방향을 반영한다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">국무총리 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">국무총리</span> 돌봄 사업 국가 책임 강화 방안에 대해서 보건부 보고하기 전에 몇 가지 간단한 얘기부터 먼저 좀 하겠습니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>보건복지부</strong> 돌봄 사업의 국가 책임 강화 방안 마련</li>
+        <li><strong>보건복지부</strong> 보육, 노인 장기요양, 아동 돌봄 등 분야별 정책 방향 검토</li>
+        <li><strong>교육부</strong> 지역사회 돌봄 인프라 확충 계획 수립</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 11: 주택 임차 대책 -->
+<div class="topic" data-topic="주택 임차 집값">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>주택 임차인 보호 및 집값 안정</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      임차인 보호 대책과 관련하여 대통령께 이미 서면 보고가 올려드려진 상태다. 자세한 내용은 추가 보고 시에 구두로 논의하기로 결정했다. 주택 관련 정책은 국민 생활에 직결되는 중요한 사안으로, 주택 가격 안정과 임차인 보호의 균형을 맞추기 위한 정책 검토가 진행 중이다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 오늘 혹시 집값 관련된 보고가 있나요? 전에 했던 임차인 대책 얘기 있습니까?
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 집값 얘기 좀 이따 하고, 필요하면 얘기하시죠.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>국토교통부</strong> 임차인 보호 대책 추가 보고 준비</li>
+        <li><strong>국토교통부</strong> 주택 가격 안정화 정책 지속 추진</li>
+        <li><strong>국토교통부</strong> 전월세 사기 및 깡통전세 피해 방지 대책 강화</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 12: 언론의 책임과 민주주의 -->
+<div class="topic" data-topic="언론 민주주의">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>팩트 보도와 언론의 책임</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      민주주의에서 팩트와 정보의 중요성을 강조했다. 국민은 주어진 정보에 따라 판단하므로 거짓 정보는 주권 행사의 왜곡을 초래한다고 지적했다. 정론 직필이 언론의 본질적 기능이며 민주주의 발전에 크게 기여하므로 제4부로 평가받고 보호받는다고 설명했다. 그만큼 언론도 책임 있는 보도의 의무가 있다는 점을 강조했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 민주주의에서는 팩트가 중요하죠. 사람은 주어진 정보에 따라 판단하는 존재인데, 가짜 정보가 주어지면 제대로 된 판단을 하기 어렵고, 그게 결국은 주권자들의 주권 행사의 왜곡을 가져옵니다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 정론 직필하는 게 언론의 본질적 기능이고, 그게 민주주의 발전에 크게 기여하기 때문에 제4부라고 평가되기도 합니다. 물론 그만큼의 책임도 져야 될 겁니다.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>문화체육관광부</strong> 미디어 리터러시 교육 강화</li>
+        <li><strong>방송통신위원회</strong> 팩트 검증 시스템 지원</li>
+        <li><strong>정부 전 부처</strong> 투명한 정보 공개로 거짓 정보 확산 방지</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 13: 행정 개혁의 작은 노력의 누적 -->
+<div class="topic" data-topic="개혁 혁신">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>작은 개혁이 모여 큰 변화를 이룬다</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      행정 개혁은 혁명적인 한두 가지 조치로 되는 게 아니며 사회 갈등을 유발할 수 있다고 지적했다. 가능한 작은 것들을 끈기 있게 추진해야 변화가 일어난다고 강조했다. 빗방울이 모여 바다가 된다는 메시지로 각자의 자리에서 작은 노력들이 부수히 쌓여야 사회 발전이 가능하다는 점을 강조했다. 부처별 청장과 장관들에게 자신의 관할 범위에서 주어진 시간과 기회를 잘 활용할 것을 당부했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 한방에 혁명적으로 그런 게 어디 있습니까? 또 그건 너무 충격이 되죠. 충돌이 많아요. 사회 갈등을 너무 많이 유발해요. 작은 거, 할 수 있는 거 이거를 정말 손발이 안 보일 정도로 정말 시도 때도 없이 치열하게 해줘야 됩니다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 제가 티끌 모아 태산이라는 말을 되게 좋아하는 편인데, 빗방울이 우리 모여서 바다가 된다. 이 개혁이라고 하는 것도 자그마한 노력들이 부수히 쌓여서 가능한 거지 획기적인 조치 한두 개가 되는 게 아닙니다. 작은 것을 많이 하자.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 우리 부처 청장, 장관님, 청장님들이 이거 꼭 신경 써 주세요. 우리한테 주어진 시간이나 기회가 그렇게 많지 않아요. 지금 해야 돼요. 지금.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>정부 전 부처</strong> 자신의 관할 범위 내에서 가능한 작은 개혁 지속 추진</li>
+        <li><strong>정부 전 부처</strong> 부하 직원까지 개혁 의식 확산 및 실행력 강화</li>
+        <li><strong>청와대</strong> 주민 신청 사항 및 언론 제보 사항에 대한 모니터링 강화</li>
+        <li><strong>정부 전 부처</strong> 임기 초반의 시간과 기회 활용 극대화</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 14: 농협·유통 개혁 -->
+<div class="topic" data-topic="농협 유통 개혁">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>농림부·농협 유통 개혁</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      최근 농림부와 농협의 유통 개혁이 활발히 진행 중이라고 언급했다. 이는 농산물의 유통 과정에서 중간 단계를 축소하고 투명성을 높이려는 노력이다. 농업 분야의 구조적 개선과 농민의 소득 증대를 목표로 추진되는 개혁 사항이다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 요새 농림부, 농협 이런 거 유통 개혁 엄청나게 일 많죠. 열심히 많이 다니는 시대에 보니까 모든 부처, 모든 공무원들이 할 수 있는 일을 고민해서 작은 거, 정말 다음 세대를 위해서라도 정말 열심히 해야 돼요.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>농림축산식품부</strong> 농산물 유통 구조 개선 지속 추진</li>
+        <li><strong>농협</strong> 직거래 시장 확대 및 유통 비용 절감</li>
+        <li><strong>농림축산식품부</strong> 농민 소득 증대 방안 다각화</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Topic 15: 임기 초반 시간의 가치 -->
+<div class="topic" data-topic="임기 시간">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>임기 초반 시간의 중요성 강조</h3>
+    </div>
+    <div class="topic-chevron">▶</div>
+  </div>
+  <div class="topic-body">
+    <div class="summary">
+      임기 초반의 한 시간이 임기 중후반의 한 시간과 가치가 완전히 다르다고 강조했다. 정책 효과도 임기 초반이 훨씬 크기 때문에 지금 당장의 행동이 매우 중요하다고 당부했다. 잠을 설치는 이유도 이러한 시간의 가치를 인식하기 때문이라고 설명했다. 부처 장관과 청장들에게 주어진 제한된 시간을 최대한 활용하여 개혁을 추진할 것을 독려했다.
+    </div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언</div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 지금 하는 한 시간하고 나중에 한 시간은 가치가 또 달라요. 임기 초에 있는 이 한 시간하고 중반, 후반에 있는 한 시간의 가치가 완전히 다르다. 지금의 가치가 가장 크다.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 제가 잠을 설치는 이유가 사실 그런 거죠. 우리한테 주어진 시간이나 기회가 그렇게 많지 않아요. 지금 해야 돼요. 지금.
+        </div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres">
+          <span class="role">대통령</span> 다들 열심히 하고 계신데, 주마가편이라고 조금 더 잘하자 그 말이에요.
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="act-label">지시사항</div>
+      <ul>
+        <li><strong>정부 전 부처</strong> 임기 초반의 정책 집중력 및 실행력 최대화</li>
+        <li><strong>청와대</strong> 부처별 목표 달성 현황 정기 점검</li>
+        <li><strong>정부 전 부처</strong> 우선순위 고도화를 통한 효율적 시간 활용</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  제5회 국무회의 브리핑 분석 결과
+  <br><br>
+  Lilys AI 트랜스크립트 기반 · 179개 세그먼트 · 42,437자 분석
+  <br><br>
+  이 자료는 회의 영상의 AI 분석을 통해 생성되었습니다. 정확한 내용은 원본 영상을 참고하십시오.
+</div>
+
+</div>
+
+<script>
+function filterTopics() {
+  const input = document.getElementById('search').value.toLowerCase();
+  const topics = document.querySelectorAll('.topic');
+
+  topics.forEach(topic => {
+    const h3 = topic.querySelector('h3');
+    const summary = topic.querySelector('.summary');
+    const text = (h3.textContent + ' ' + summary.textContent).toLowerCase();
+
+    if (text.includes(input)) {
+      topic.style.display = 'block';
+    } else {
+      topic.style.display = 'none';
+    }
+  });
+}
+
+// Open first topic by default
+document.addEventListener('DOMContentLoaded', function() {
+  const firstTopic = document.querySelector('.topic');
+  if (firstTopic) {
+    firstTopic.classList.add('open');
+  }
+});
+
+</script>
+<script src="js/sidebar-loader.js"></script>
+</body>
+</html>

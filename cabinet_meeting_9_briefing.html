@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제9회 국무회의 브리핑 (2026-03-10)</title>
+<style>
+:root {
+  --bg: #fdad00; --card: #fff; --text: #1a1a1a; --sub: #555;
+  --accent: #1d4ed8; --accent2: #7c3aed; --border: #e5e7eb;
+  --green: #059669; --amber: #d97706;
+  --pres: #1e3a5f; --resp: #4a5568;
+  --sidebar-width: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.8;
+  font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; right: 0;
+  width: var(--sidebar-width); height: 100vh;
+  background: #1c1917; color: #e7e5e4;
+  padding: 1.5rem 1.2rem;
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto;
+}
+.sidebar .brand { font-size: 1.1rem; font-weight: 700; color: #fdad00; margin-bottom: 0.25rem; }
+.sidebar .brand-sub { font-size: 0.75rem; color: #a8a29e; margin-bottom: 1.2rem; letter-spacing: 0; }
+.sidebar .divider { border: none; border-top: 1px solid #333; margin: 1rem 0; }
+.sidebar .nav-label { font-size: 0.7rem; color: #a8a29e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.sidebar .nav-link {
+  display: block; padding: 0.55rem 0.8rem; margin-bottom: 0.3rem;
+  border-radius: 6px; font-size: 0.85rem; color: #e7e5e4;
+  text-decoration: none; transition: background 0.15s;
+}
+.sidebar .nav-link:hover { background: #333; }
+.sidebar .nav-link.active { background: #fdad00; color: #1c1917; font-weight: 600; }
+.sidebar-footer { margin-top: auto; font-size: 0.65rem; color: #57534e; }
+.sidebar-toggle {
+  display: none; position: fixed; top: 0.75rem; right: 0.75rem;
+  z-index: 200; background: #1c1917; color: #fdad00;
+  border: none; border-radius: 6px; padding: 0.5rem 0.7rem;
+  font-size: 1.1rem; cursor: pointer;
+}
+
+.main { margin-right: var(--sidebar-width); }
+
+.masthead {
+  background: linear-gradient(135deg, #111 0%, #1e293b 100%);
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+}
+.masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
+.masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
+.masthead .meta { font-size: 13px; opacity: .7; }
+.masthead .lead {
+  margin-top: 18px; font-size: 15px; opacity: .9; line-height: 1.65;
+  max-width: 640px;
+}
+
+.stats {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
+  max-width: 760px; margin: 0 auto;
+}
+.stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
+
+.container { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+
+.note {
+  background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px;
+  padding: 12px 16px; margin-bottom: 20px; font-size: 12px; color: #92400e; line-height: 1.6;
+}
+.note a { color: #92400e; font-weight: 600; }
+
+.search { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 8px 0 12px; }
+.search input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; outline: none;
+}
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
+
+/* Topic card */
+.topic {
+  background: var(--card); border-radius: 10px; margin-bottom: 14px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.topic:hover { box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+.topic-head {
+  padding: 16px 18px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px;
+  /* user-select: auto for drag */
+}
+.topic-info { flex: 1; }
+.topic-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 0; line-height: 1.5; }
+.topic-chevron { font-size: 18px; color: #bbb; transition: transform .2s; margin-top: 2px; flex-shrink: 0; }
+.topic.open .topic-chevron { transform: rotate(90deg); }
+.topic-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+.topic.open .topic-body { display: block; }
+
+/* Summary */
+.summary {
+  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+}
+
+/* Exchange (대통령 발언 + 부처 답변) */
+.exchanges { margin: 14px 0; }
+.ex-label { font-size: 11px; font-weight: 700; color: var(--pres); letter-spacing: .5px; margin-bottom: 8px; }
+.exchange { margin-bottom: 10px; }
+.ex-pres {
+  background: #f0f4ff; border-left: 3px solid var(--pres);
+  padding: 10px 14px; border-radius: 0 6px 6px 0;
+  font-size: 13.5px; color: #1e3a5f; line-height: 1.7;
+}
+.ex-pres .role { font-weight: 700; font-size: 11px; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+.ex-resp {
+  background: #f8faf8; border-left: 3px solid #94a3b8;
+  padding: 10px 14px; margin-top: 2px; border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--resp); line-height: 1.7;
+}
+.ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+
+/* Actions */
+.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
+.actions ul { margin: 0; padding-left: 18px; }
+.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
+.actions li strong { color: var(--text); }
+
+/* Summary bullets */
+.summary ul { margin: 0; padding-left: 18px; }
+.summary li { margin-bottom: 4px; }
+
+.footer { text-align: left; padding: 36px 16px; color: #aaa; font-size: 11px; line-height: 1.7; max-width: 760px; margin: 0 auto; }
+.footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: block; }
+  .main { margin-right: 0; }
+  .masthead h1 { font-size: 19px; }
+  .stats { gap: 14px; }
+  .summary { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <a href="https://slownews.kr" target="_blank" rel="noopener" style="text-decoration:none;">
+    <div class="brand">슬로우레터</div>
+  </a>
+  <div class="brand-sub">국무회의 브리핑.</div>
+  <hr class="divider">
+  <div class="nav-label">회의록</div>
+  <div id="meeting-nav"><!-- meetings.json에서 자동 로딩 --></div>
+  <hr class="divider">
+  <a class="nav-link" href="./">빠른 검색</a>
+  <div class="sidebar-footer">
+    <hr class="divider">
+    <span style="color:#fdad00;">slownews.kr</span>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+
+<div class="masthead">
+  <div class="label">국무회의 브리핑</div>
+  <h1>제9회 국무회의.</h1>
+  <div class="meta">2026년 3월 10일, 서울 용산 대통령실.</div>
+  <div class="lead">
+    중동 전쟁의 충격을 흡수하면서 물가·에너지·금융 3중 대응 체계를 점검했다. 석유 최고가격제와 유류세 인하의 조합을 설계하고, 부정·담합에 대한 포상금 혁신을 선언했다. 공공 생리대 시범사업, 보복 범죄 방지 대책, 전세사기 근절, 경력보유 여성 지원을 논의했다.
+  </div>
+</div>
+
+<div class="stats">
+  <div><span class="v">10</span>주요 안건</div>
+  <div><span class="v">31</span>지시·결정 사항</div>
+  <div><span class="v">24</span>주요 워딩</div>
+</div>
+
+<div class="container">
+
+<div class="note">
+  회의 영상을 AI 에이전트로 분석·요약하고 데스킹을 거쳤습니다.
+  고유명사 등 일부 표기가 부정확할 수 있습니다.
+  발언은 최대한 원문을 그대로 인용하되, 문답으로 구성하는 과정에서 표현을 다듬었습니다.
+  <a href="" target="_blank">원본 영상 보기 ▶</a>
+</div>
+
+<div class="search">
+  <input type="text" id="q" placeholder="안건·발언 검색..." oninput="filter(this.value)">
+</div>
+
+<div class="topic open" id="t-opening">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>위기가 곧 기회, 준비된 나라가 이긴다.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>이재명 대통령은 모두발언에서 &#x27;위기가 닥치면 모두가 어렵지만, 평소 준비한 나라가 상대적으로 더 나아진다&#x27;고 강조했다.</li><li>중동 지역 긴장 심화로 에너지 수급·해운 물류·금융시장 전반에 불확실성이 빠르게 확대되고 있으며, 가장 시급한 과제는 물가 안정이라고 진단했다.</li><li>석유 최고가격제 집행, 에너지 세제 조정, 소비자 직접 지원을 포함한 추가 금융·재정 지원을 신속하게 검토하라고 지시했다.</li><li>UAE·카타르 전세기로 525명이 귀국한 데 이어, 군용기 활용과 육로 이동도 서둘러 주시기 바란다고 당부했다.</li><li>전세 사기 근절을 &#x27;비정상의 정상화 핵심 과제&#x27;로 규정하고, 국가정상화위원회 같은 조직 구성도 논의해 보라고 했다.</li><li>주한미군 장비 반출 논란에 대해서는 &#x27;대한민국 군사력은 세계 5위, 북한과 재래식 전력 차이가 크므로 전혀 우려할 필요 없다&#x27;고 단언했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"피할 수 없으면 즐겨라. 현재 상황을 냉철하게 분석하고 수용하고, 그 속에서 기회의 요인을 극대화하면 오히려 우리가 더 나은 상황으로 나아갈 수 있다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"전세기 추가 투입이 필요하면 군용기 활용 방안도 적극 검토해야 합니다. 모든 국민들이 한 분도 빠짐없이 안전하게 대피하실 때까지 긴장의 끈을 놓지 마십시오."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"주한미군 장비 반출로 우리 대북 억지 전략에 장애가 생기느냐 묻는다면, 전적으로 그렇지 않다고 말씀드릴 수 있습니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>전 부처</strong> 물가 안정 — 석유 최고가격제·세제 조정·소비자 직접 지원 신속 검토</li>
+      <li><strong>외교부·국방부</strong> 재외국민 전세기·군용기·육로 대피 총력 추진</li>
+      <li><strong>국무총리</strong> 국가정상화위원회(비정상의 정상화) 조직 구성 논의</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-mideast_diplomacy">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>중동 13개 공관과 재외국민 14,687명의 안전.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>외교부 장관이 중동 전쟁 현황을 보고했다.</li><li>트럼프 대통령이 이란의 무조건 항복을 요구한 가운데, 세 번째 항공모함 전단 추가 배치 보도가 나왔다.</li><li>레바논에서는 이스라엘-헤즈볼라 공방이 이어지고, 이라크 미국 대사관이 공격받는 등 영내 긴장이 확산되고 있다.</li><li>외교부는 13개 공관장 화상회의를 열고 재외국민 안전 대책을 점검했다.</li><li>어제 밤 기준 중동 체류 한국인은 14,687명이며, UAE 전세기 203명, 카타르 긴급 항공편 322명이 무사 귀국했다.</li><li>군용기 KC-330과 C-130J 4대가 비상 대기 중으로 1회 720명 긴급 수송이 가능하다.</li><li>카타르 항공 근무 한국인 650명의 귀국 문제도 논의되었다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"지금 군용기는 비상 대기 중이죠?"</div>
+        <div class="ex-resp"><span class="role">국방부</span><br>"KC-330과 C-130J 4대를 대기시켰습니다. 동시에 1회 720명 긴급 수송이 가능합니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"카타르 항공에 근무하는 한국인들, 천 몇백 명 된다고? 긴급 귀국 대상은 아닌가요?"</div>
+        <div class="ex-resp"><span class="role">외교부 장관</span><br>"650명입니다. 개별적으로는 돌아오고 싶은데 회사 차원에서 안 된다는 상황입니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>외교부</strong> 13개 공관 재외국민 안전 대책 상시 점검</li>
+      <li><strong>국방부</strong> 군용기 4대 비상 대기 유지 — 추가 전세기 투입 준비</li>
+      <li><strong>외교부</strong> 카타르 항공 등 현지 근무 한국인 귀국 지원 교섭</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-economy">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>유가 롤러코스터, 양극화를 막는 재정 설계.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>재경부 장관이 경제 분야 대응을 보고했다.</li><li>WTI 유가가 전일 102달러에서 87.9달러로 급락하는 등 극심한 변동성을 보이고 있다.</li><li>코스피는 전일 6% 하락 후 당일 5% 이상 반등하며 롤러코스터 장세를 연출했다.</li><li>수출 중소기업 피해 97건이 접수되었고, 나프타는 수입액의 54%가 호르무즈 해협을 이용해 수급 차질이 우려된다.</li><li>비상 대응반 반장을 차관급으로 격상하고, 비상경제 관계장관회의를 매주 운영하기로 했다.</li><li>대통령은 유류세 인하가 양극화를 악화시킬 수 있다고 지적하며, 유류세 인하와 서민 직접 지원을 혼합하는 방안을 설계하라고 지시했다.</li><li>대체 에너지 전환의 속도를 높여야 한다고 강조하며 재생에너지 확대, 햇빛 소득 마을, 전기차 전환을 언급했다.</li><li>추경 필요성에 대해서도 &#x27;기존 예산으로 부족할 것&#x27;이라며 조기 추경을 시사했다.</li><li>주식시장 제도 개선 — 코스닥 정비, 상속 대비 주가 억압, 투명성 강화 등도 속도를 내라고 주문했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"유류세를 일률적으로 내려주면 양극화가 악화된다. 차라리 그 재원으로 서민·어려운 소비자층을 타겟으로 지원하면 어떻겠습니까?"</div>
+        <div class="ex-resp"><span class="role">재경부 장관</span><br>"유류세 인하와 직접 지원을 섞어서, 양극화 해소에 도움이 되는 방향으로 설계하겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"이번 기회에 대체 에너지 전환을 속도전으로 쳐야 될 것 같아요. 재생에너지 늘리고, 햇빛 소득 마을도 빨리."</div>
+        <div class="ex-resp"><span class="role">산업부</span><br>"속도를 더 빨리 내겠습니다. 전기차 예산 조기 소진 가능성도 있어 대비하겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"주식시장 제도 개선, 코스닥 정비, 상속 대비 주가 억압 같은 것들 이번 기회에 속도를 내면 좋겠어요."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>재경부</strong> 비상경제 관계장관회의 매주 운영 + 비상 대응반 차관급 격상</li>
+      <li><strong>재경부</strong> 유류세 인하 + 서민 직접 지원 혼합 방안 설계</li>
+      <li><strong>산업부</strong> 대체 에너지 전환 가속화 — 재생에너지·전기차 확대</li>
+      <li><strong>재경부</strong> 주식시장 투명성·공정성 제도 개선 속도전</li>
+      <li><strong>전 부처</strong> 추경 편성 검토 — 소상공인·한계기업 지원 재정 확보</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-price_cartel">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>포상금 무제한, 담합하면 회사가 망한다.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>산업부 장관이 석유사업법에 따른 최고가격제를 금주 내 시행하겠다고 보고했다.</li><li>공정위·행안부·국세청 합동 단속으로 가격 담합·불공정거래를 엄정 제재하기로 했다.</li><li>대통령은 담합 신고 포상금을 과징금의 10%까지 상한 없이 지급하는 제도를 강조했다.</li><li>&#x27;4천억 과징금이면 포상금이 400억, 수백억 포상금을 받게 되니 반드시 드러나게 되어 있다&#x27;고 경고했다.</li><li>과징금 부과율도 20%에서 30%로 상향하는 법 개정을 추진 중이다.</li><li>직접 가담자가 신고하는 경우에도 면책과 차등 포상금을 지급하는 방안을 검토하라고 지시했다.</li><li>포상금은 부과 시 일부를 선지급하고, 환수 후 잔금을 정산하는 구조로 설계하라고 했다.</li><li>주가 조작 원금 몰수에 대해서도 포상금을 연계하라고 지시했다.</li><li>모든 부처에 &#x27;부정·불법 행위를 하면 사업 자체가 망한다&#x27;는 인식이 자리잡도록 포상 제도를 확대하라고 주문했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"기업들 부정행위한 기업들 진짜 조심해야 됩니다. 수백억의 포상금을 받게 되기 때문에 반드시 드러나게 되어 있어요."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"직접 가담한 경우에도 면책·감면, 그리고 포상금도 약간 감하되 당사자도 지급하는 걸로 준비해 주십시오."</div>
+        <div class="ex-resp"><span class="role">공정위</span><br>"5월 말까지 고시 개정하고, 지금 신고해도 변경된 제도가 적용되게 특례까지 해놨습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"주가 조작에 동원된 원금도 몰수하고, 그 몰수 금액에 대해서도 포상금을 주는 걸로."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>산업부</strong> 석유사업법 최고가격제 금주 내 고시 시행</li>
+      <li><strong>공정위</strong> 담합 신고 포상금 과징금 10% 상한 없이 — 고시 개정(5월 말)</li>
+      <li><strong>전 부처</strong> 가담자 면책·감면 + 차등 포상금 제도 확대</li>
+      <li><strong>법무부·금융위</strong> 주가 조작 원금 몰수 + 포상금 연계</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-sanitary">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>100원 생리대, 공공 필수품 시대를 연다.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>성평등가족부 장관이 &#x27;필요한 순간에 누구나&#x27; 공공 생리대 시범사업을 보고했다.</li><li>전국 10개 지역을 선정해 하반기에 시범 운영하며, 주민센터·편의점·마을회관 등에 비치한다.</li><li>100원대 실속형 생리대 7개 제품이 식약처 심사를 받고 있으며, 통상 3개월 걸리는 심사를 3주 이내로 단축했다.</li><li>대통령은 생리대뿐 아니라 국민 생활 필수품 전반의 독과점 가격 문제를 지적했다.</li><li>&#x27;전 세계에서 대한민국 물가가 가장 비싼 편인데 이런 것들이 쌓이고 쌓여서 생긴 문제&#x27;라고 진단했다.</li><li>기본소득 관점에서 적정 물가로 제공하는 &#x27;기본 공공물품&#x27; 리스트를 정리해 보라고 제안했다.</li><li>공정위는 생리대 제조 사업자들의 영업이익률이 높아 가격 인하 여력이 더 있다고 판단했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"생리대 말고도 우리 사회에 국민들이 일상적으로 필요한 필수품, 거의 공공재에 가까운 필수품들이 많잖아요. 각 부처가 좀 각별히 관심 가져 주십시오."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"전 세계에서 대한민국 물가가 가장 비싼 편이라는데, 이게 다 이런 것들이 쌓이고 쌓여서 생긴 문제겠죠."</div>
+        <div class="ex-resp"><span class="role">공정위</span><br>"생리대 사업자들이 자발적으로 가격을 인하한 것은 고무적이나, 영업이익률이 높아 인하 여력은 더 있다고 판단합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>성평등가족부</strong> 공공 생리대 시범사업 — 전국 10개 지역 하반기 시행</li>
+      <li><strong>식약처</strong> 100원대 생리대 안전성 심사 신속 처리(3주 이내)</li>
+      <li><strong>전 부처</strong> 국민 필수품 독과점 가격 점검 + 기본 공공물품 리스트 정리</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-victim_protection">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>보복 범죄 4.5배 급증, 피해자 선제 보호.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>법무부 장관이 보복 범죄 방지를 위한 피해자 보호 제도 개선을 보고했다.</li><li>2024년 기준 보복 범죄가 2020년 대비 4.5배 증가한 1,617건, 누적 3,300건 이상이다.</li><li>가해자 석방·출소를 자동으로 통지하는 시스템을 구축하고, 온라인 종합지원 시스템을 만든다.</li><li>수도권 범죄 잠정조치 기간과 연장 횟수를 상향하고, 전자감독 제도를 강화한다.</li><li>6월부터 피해자에게 모바일 앱 지도상 가해자 위치를 실시간 제공한다.</li><li>교제폭력 가해자에게도 전자장치 부착 잠정조치를 도입하는 입법을 추진한다.</li><li>성평등가족부는 스토킹·교제폭력 피해자 지원 강화 방안을 이어 보고했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">법무부 장관</span><br>"피해자가 별도 신청 없이도 가해자 석방·출소를 자동 통지받고, 6월부터 모바일 앱으로 가해자 위치를 실시간 확인할 수 있게 합니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"스토킹, 교제 폭력 피해자들이 보호 조치 미흡으로 추가 피해를 당하는 경우가 발생하지 않게 잘 챙겨 주시기 바랍니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>법무부</strong> 가해자 석방·출소 자동 통지 시스템 구축</li>
+      <li><strong>법무부</strong> 6월 피해자 모바일 앱 — 가해자 실시간 위치 제공</li>
+      <li><strong>법무부</strong> 교제폭력 전자장치 부착 잠정조치 입법 추진</li>
+      <li><strong>성평등가족부</strong> 스토킹·교제폭력 피해자 전주기 지원 강화</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-women_work">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>경력 &#x27;단절&#x27;에서 경력 &#x27;보유&#x27;로, 맞돌봄이 열쇠.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>성평등가족부 장관이 여성 경제활동 촉진 방안을 보고했다.</li><li>&#x27;경력 단절 여성&#x27;이라는 용어를 &#x27;경력 보유 여성&#x27;으로 변경해 부정적 인식을 해소했다.</li><li>재취업 중심에서 고용 유지(예방) 중심으로 정책 방향을 전환한다.</li><li>고용노동부는 맞돌봄 확산, 육아기 10시 출근제, 8월 단기 휴직제 도입 등을 보고했다.</li><li>대통령은 남성 육아휴직 비율이 총량 대비 20% 미만이라며, 북유럽처럼 남성이 휴직을 안 쓰면 전체 육아휴직에서 약간의 불이익을 주는 제도를 검토하라고 지시했다.</li><li>부장관이 일부 부처에서 남성 육아휴직 사용에 어려움이 있다는 제보를 전하며, 각 부처 장관이 부처 내 남녀 육아휴직 사용 비율을 챙겨봐 달라고 요청했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"남성 육아휴직 비율이 총량에 비하면 20%가 안 되는데, 북유럽 어디 국가에서는 남성이 안 쓰면 전체 육아휴직에서 약간의 불이익을 주더라고요. 검토해 보세요."</div>
+        <div class="ex-resp"><span class="role">노동부 장관</span><br>"남성 육아휴직을 더욱 촉진할 수 있는 방안을 검토하겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">부장관</span><br>"일부 부처에서 남성분들이 육아휴직 사용에 어려움이 있다는 제보가 있습니다. 부처 장관님들께서 남녀 육아휴직 사용 비율을 챙겨봐 주시면 좋겠습니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>성평등가족부</strong> 경력보유 여성 정책 — 재취업에서 고용 유지(예방) 중심 전환</li>
+      <li><strong>노동부</strong> 맞돌봄 확산 + 육아기 10시 출근제 + 8월 단기 휴직제 도입</li>
+      <li><strong>노동부</strong> 남성 육아휴직 촉진 제도 검토 — 북유럽 사례 참고</li>
+      <li><strong>전 부처</strong> 부처 내 남녀 육아휴직 사용 비율 점검</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-jeonse">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>전세 사기 근절, 정보 비대칭을 깨뜨린다.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>국토부가 전세사기 방지 근본 대책을 보고했다.</li><li>핵심은 임대인과 임차인 간 정보 비대칭 해소다.</li><li>등기 정보를 활용해 주택도시보증공사 안심 전세 앱을 8월까지 고도화하고 9월부터 서비스한다.</li><li>대항력 발생 시점의 공백(전입 신고 익일 0시)을 축소하고, 공인중개사에게 선순위 권리 총 규모 설명 의무를 강화한다.</li><li>대통령은 전세사기 피해자에 대한 재정 지원·구상권 행사 제도를 언급하며, &#x27;정부 정책 설계에 문제가 있어서 생긴 측면이 있으므로 정부가 책임을 져야 한다&#x27;고 했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">국토부</span><br>"안심 전세 앱을 8월까지 고도화하고, 대항력 공백 축소·중개사 설명 의무 강화를 추진합니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"전세 사기 문제는 정부 정책에 문제가 있어서 생긴 측면이 있어서, 어느 정도 정부가 책임을 지는 게 맞다고 생각합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>국토부</strong> 안심 전세 앱 고도화(8월) + 9월 서비스 개시</li>
+      <li><strong>국토부</strong> 대항력 공백 축소 + 공인중개사 설명 의무 강화</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-labor_law">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>개정 노동조합법, 원하청 대화의 제도화.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>노동부 장관이 개정 노동조합법 시행 준비 상황을 보고했다.</li><li>&#x27;불법 파업에 면제부를 주는 법이 아니라, 불법의 근원을 없애서 원하청 간 대화를 제도화하는 법&#x27;이라고 정의했다.</li><li>전문가 자문위원회를 운영하고, 중앙노동위원회와 공동으로 원하청 교섭 절차 매뉴얼을 마련한다.</li><li>공공부문은 정부가 실질적 책임을 다하는 영역으로서 상생협력 우수모델을 만들기로 했다.</li><li>대통령은 정부·공공기관에서 최저임금으로 고용하거나 11개월 29일 계약으로 퇴직금을 회피하는 관행을 재차 경고했다.</li><li>&#x27;대통령이 말하는데도 시행이 안 되나 봐&#x27; 하고 국민이 인식하면 안 된다며, 2,200개 공공부문·지방정부의 실태조사를 신속히 마무리하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"정규직 안 쓰려고 11개월 29일 계약해서 퇴직금 안 주고… 그거 하지 말라고 했잖아요. 여러 차례."</div>
+        <div class="ex-resp"><span class="role">노동부 장관</span><br>"보도 나온 후 2,200개 공공부문·지방정부 전체에 실태조사를 내렸습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"대통령이 말하는데도 시행이 안 되나 봐, 콩가루 집안인가 봐, 이렇게 되면 안 됩니다. 신속하게 해명도 하시고 시행도 해 주십시오."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>노동부</strong> 개정 노동조합법 시행 — 전문가 자문위·원하청 교섭 매뉴얼 마련</li>
+      <li><strong>노동부</strong> 2,200개 공공기관·지방정부 비정규직 실태조사 완료</li>
+      <li><strong>전 부처</strong> 공공부문 적정 임금·정규직 전환 계획 수립</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-closing">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>수평적 소통, 권한 행사에는 반드시 책임을.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>대통령은 마무리 발언에서 공직 조직의 관료화를 경계했다.</li><li>&#x27;칸막이를 치고 자기 고집을 하거나 권한을 가지고 다투면서 해야 할 일을 못하면 기업으로 치면 망하는 것&#x27;이라고 했다.</li><li>수평적 소통을 위해 상급자의 의도적인 노력이 필요하다고 강조했다.</li><li>&#x27;일선 신입 직원까지 다 모아서 동그랗게 앉아 먹으면서 얘기를 시켜봐야 한다&#x27;고 했다.</li><li>의견 차이가 드러나는 것은 바람직하지만, 힘으로 누르면 다음에는 절대 얘기를 안 한다고 경고했다.</li><li>권한을 행사할 때는 반드시 책임을 지는 원칙을 세워야 하며, &#x27;지위가 높고 권한이 커질수록 책임이 더 크다&#x27;고 강조했다.</li><li>&#x27;지금까지 어떤 정부 조직보다도 효율적으로 소통하고 최선을 다해서 많은 성과를 낸 정부로 기억될 것&#x27;이라고 자신했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"칸막이를 최대한 낮추고 서로 토론하고 존중하고 협력하고 그래야 됩니다. 충실함은 기본이겠죠."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"의견이 다른 게 드러나는 것은 바람직해요. 그런데 힘으로 누르면 다음에는 절대 얘기 안 해요. 조직 발전이 안 됩니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"권한을 행사할 때는 반드시 책임을 집니다. 지위가 높고 권한이 커지면 커질수록 책임이 더 클 수 있습니다."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Lilys AI 트랜스크립트 기반 · 223개 세그먼트 · 45,360자 분석<br>
+  요약은 AI가, 편집 판단은 사람이 합니다<br>
+  <a href="" target="_blank">원본 영상 전체 보기 ▶</a>
+</div>
+</div>
+
+</div><!-- /.main -->
+
+<script>
+function filter(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.topic').forEach(el => {
+    el.style.display = (!q || el.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+}
+</script>
+<script src="js/sidebar-loader.js"></script>
+</body>
+</html>
