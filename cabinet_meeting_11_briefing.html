@@ -15,7 +15,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
-  background: var(--bg); color: var(--text); line-height: 1.8;
+  background: var(--bg); color: var(--text); line-height: 1.6;
   font-size: 15px;
 }
 
@@ -51,7 +51,7 @@ body {
 
 .masthead {
   background: linear-gradient(135deg, #111 0%, #1e293b 100%);
-  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 24px auto 0; border-radius: 10px 10px 0 0;
 }
 .masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
 .masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
@@ -64,7 +64,7 @@ body {
 .stats {
   display: flex; gap: 28px; flex-wrap: wrap;
   padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
-  max-width: 760px; margin: 0 auto;
+  max-width: 760px; margin: 0 auto; border-radius: 0 0 10px 10px;
 }
 .stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
 
@@ -102,7 +102,7 @@ body {
 
 /* Summary */
 .summary {
-  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+  font-size: 14.5px; color: var(--text); line-height: 1.65; margin: 14px 0;
 }
 
 /* Exchange (대통령 발언 + 부처 답변) */
@@ -123,11 +123,6 @@ body {
 .ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
 
 /* Actions */
-.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
-.actions ul { margin: 0; padding-left: 18px; }
-.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
-.actions li strong { color: var(--text); }
-
 /* Summary bullets */
 .summary ul { margin: 0; padding-left: 18px; }
 .summary li { margin-bottom: 4px; }
@@ -184,9 +179,9 @@ body {
 </div>
 
 <div class="stats">
-  <div><span class="v">19</span>주요 안건</div>
-  <div><span class="v">40</span>지시·결정 사항</div>
-  <div><span class="v">41</span>주요 워딩</div>
+  <div><span class="v">19</span>주요 안건.</div>
+  <div><span class="v">61</span>주요 워딩.</div>
+  <div><span class="v">49,349</span>글자 수.</div>
 </div>
 
 <div class="container">
@@ -223,12 +218,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"국민 고통을 악용한 부당한 돈벌이는 법과 원칙에 따라서 발본색원하고 일벌백계해야 되겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 수급 우려 품목 포괄 점검 + 대체 공급선 파악</li>
-      <li><strong>재경부</strong> 석유 최고가격 2차 고시(3/27) 준비</li>
-      <li><strong>전 부처</strong> 전쟁 추경 신속 편성</li>
-    </ul></div>
   </div>
 </div>
 
@@ -255,11 +244,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"지붕에 올라가는 거 정말로 위험합니다. 사업자나 일하는 분들이나 각별히 유념해 주시기 바랍니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>노동부</strong> 지붕 공사 신고 제도 + 안전 지킴이 배치 방안 마련</li>
-      <li><strong>노동부</strong> 매트리스 등 안전장비 제공·대여 확대</li>
-    </ul></div>
   </div>
 </div>
 
@@ -282,11 +266,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"누락시키거나 한 공직자와 자치단체에 대해서는 징계를 넘어서 형사처벌까지도. 알면서도 제대로 조사 안 한 건 다 찾아서 엄정하게 처벌하도록 하십시오."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>행안부</strong> 전국 감찰반 구성 → 불법시설물 누락 공직자 형사처벌</li>
-      <li><strong>국무총리실</strong> 공직 기강 감찰팀 철저 점검</li>
-    </ul></div>
   </div>
 </div>
 
@@ -308,10 +287,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"당근과 채찍이 동시에 필요한데 우리는 주로 채찍만 쓰는 경향이 있어요. 그렇게 하면 조직 운영이 안 됩니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 하부 단위까지 공직 기강 점검 + 우수 공직자 발굴·포상</li>
-    </ul></div>
   </div>
 </div>
 
@@ -333,11 +308,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"0.1%의 물셀 틈도 없게 모든 악용 가능성을 완전히 배제하고 철저하게 준비해야 됩니다. 정치적 고려도 전혀 할 필요 없습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 부동산 투기 대응 — 세제·금융·규제 전방위 준비</li>
-      <li><strong>전 부처</strong> 담합·시세 조작 엄정 제재 준비</li>
-    </ul></div>
   </div>
 </div>
 
@@ -364,11 +334,6 @@ body {
         <div class="ex-resp"><span class="role">기획예산처</span><br>"올해 포상금이 100억 넘게 증액 반영돼 있고, 추가 필요한 부분은 예비비로 차질 없이 지원하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>공정위</strong> 프랜차이즈 부당행위 법률 허용 최대치 제재</li>
-      <li><strong>기획예산처</strong> 각 부처 포상금 예산 확보 — 예비비 편성</li>
-    </ul></div>
   </div>
 </div>
 
@@ -394,10 +359,6 @@ body {
         <div class="ex-resp"><span class="role">총리</span><br>"실제 상황에서 의사 표명이 단순하지 않은 미묘한 경우가 있습니다. 선제적으로 통지하고 지속적으로 체크해 주십시오."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>외교부</strong> 재외국민 귀국 지원 — 선제적 통지, 한 명도 방치 없이</li>
-    </ul></div>
   </div>
 </div>
 
@@ -427,12 +388,6 @@ body {
         <div class="ex-resp"><span class="role">재경부 장관</span><br>"그렇게 하도록 하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>재경부</strong> 추경 3월 말 국회 제출 — 초과세수 활용, 서민 직접 지원</li>
-      <li><strong>재경부</strong> 최고가격제 생산원가 기준 전환 + 유류세 인하 병행</li>
-      <li><strong>재경부</strong> WGBI 편입 4/1 차질 없이 준비</li>
-    </ul></div>
   </div>
 </div>
 
@@ -456,13 +411,6 @@ body {
         <div class="ex-resp"><span class="role">기후에너지부 장관</span><br>"그렇게 하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>기후에너지부</strong> 원전 이용률 80%↑ — 3월 2기, 5월 3기 추가 가동</li>
-      <li><strong>기후에너지부</strong> 석탄발전소 폐쇄 일정 연기 검토 (6월·12월분)</li>
-      <li><strong>전 부처</strong> 공공부문 차량 5부제 의무 시행</li>
-      <li><strong>기후에너지부</strong> 석유 다소비 50개 업체 절감 목표 부여 + 인센티브</li>
-    </ul></div>
   </div>
 </div>
 
@@ -486,11 +434,6 @@ body {
         <div class="ex-resp"><span class="role">기후에너지부 장관</span><br>"재생에너지 중심 에너지 대전환 전략을 추후 별도로 보고드리겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>기후에너지부</strong> 피크 시간대(17~20시) 전기요금 차등제 조기 시행</li>
-      <li><strong>기후에너지부</strong> 재생에너지 7.4GW + 가정용 베란다 태양광 확대</li>
-    </ul></div>
   </div>
 </div>
 
@@ -512,12 +455,6 @@ body {
         <div class="ex-resp"><span class="role">산업부 장관</span><br>"위기 관리를 하지 않으면 성장할 수 없습니다. 위기 관리 항목을 투자 중점에 넣어야 합니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>기획예산처</strong> 27년 예산 편성 지침 — 3/30 국무회의 최종 의결</li>
-      <li><strong>전 부처</strong> 재량 15%·의무 10% 절감, 사업 수 10% 폐지</li>
-      <li><strong>전 부처</strong> 시민단체 의견 청취 + 예산·결산·예비비 분기 공개</li>
-    </ul></div>
   </div>
 </div>
 
@@ -539,10 +476,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"송전망 인프라를 한전이 돈이 없어 못 한다고 하는데, 시민들한테 투자 기회를 주고 수익 보장을 해 주면 아주 안전한 사업이잖아요."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 제3섹터(민관 합동) 방식 인프라 투자 적극 발굴</li>
-    </ul></div>
   </div>
 </div>
 
@@ -562,10 +495,6 @@ body {
         <div class="ex-resp"><span class="role">기획예산처</span><br>"성남시 사례를 참고해서 더 효과적으로 집행할 수 있는 방법을 고민해 보겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>기획예산처</strong> 기금 원본 활용 방식 근본 검토 — 성남시 사례 참고</li>
-    </ul></div>
   </div>
 </div>
 
@@ -589,13 +518,6 @@ body {
         <div class="ex-resp"><span class="role">농식품부</span><br>"농지 조사를 하면서 묵은 땅도 발굴해 태양광에 활용하겠습니다. 저수지와 비축 농지를 매칭한 결과 7,854개 마을이 활용 가능합니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>행안부</strong> 3월 말 공모 → 7월 1단계, 9월 2단계 마을 지정</li>
-      <li><strong>기획예산처+금융위</strong> 직접 지원 → 2차 보전(이자보전) 방식 전환 설계</li>
-      <li><strong>기후에너지부</strong> 전기사업법·분산에너지특별법 개정 — 우선 접속</li>
-      <li><strong>농식품부</strong> 3년 이상 묵은 땅 태양광 활용 입법 검토</li>
-    </ul></div>
   </div>
 </div>
 
@@ -614,11 +536,6 @@ body {
         <div class="ex-resp"><span class="role">복지부 장관</span><br>"시범사업 결과 가족 돌봄 청년은 돌봄 시간 10% 감소, 삶의 만족도 33% 증가로 긍정적 성과가 확인되었습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>복지부</strong> 가족 돌봄 아동·청년 — 돌봄·요양 절차 간소화 + 자기돌봄비 지원</li>
-      <li><strong>복지부</strong> 청년 미래 센터 전국 확대 + 5개년 기본 계획 수립</li>
-    </ul></div>
   </div>
 </div>
 
@@ -664,11 +581,6 @@ body {
         <div class="ex-resp"><span class="role">행안부 장관</span><br>"제도를 설계해 보겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>문체부</strong> 반값 여행 추가 모집 + 추경 예산 대폭 증액</li>
-      <li><strong>행안부</strong> 정책 결정 시 &#x27;지역 균형 발전 영향 평가&#x27; 의무화 설계</li>
-    </ul></div>
   </div>
 </div>
 
@@ -691,12 +603,6 @@ body {
         <div class="ex-resp"><span class="role">중기부</span><br>"26일 06시에 &#x27;모두의 창업&#x27; 플랫폼이 열립니다. 공고 단계부터 등록하는 모든 사람이 플랫폼에서 보이는 첫 번째 정부 사업 공고 방식의 변화입니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>과기부</strong> 전국민 AI 경진대회 3/26 개막 — 11월까지</li>
-      <li><strong>과기부</strong> 소버린 AI 4팀 → 8월 2차 평가 → 최종 2팀</li>
-      <li><strong>중기부</strong> 모두의 창업 플랫폼 3/26 오픈</li>
-    </ul></div>
   </div>
 </div>
 
@@ -716,11 +622,6 @@ body {
         <div class="ex-resp"><span class="role">행안부 장관</span><br>"작년에 시작한 클린 대한민국을 지역 마을 청결운동으로 전환해서 실시하고 있습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>행안부</strong> 클린 대한민국 — 지방정부 환경 정비 체계적 관리</li>
-      <li><strong>해수부</strong> 해안가 부유 쓰레기 대책 보고</li>
-    </ul></div>
   </div>
 </div>
 

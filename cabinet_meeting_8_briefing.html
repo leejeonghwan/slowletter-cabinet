@@ -15,7 +15,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
-  background: var(--bg); color: var(--text); line-height: 1.8;
+  background: var(--bg); color: var(--text); line-height: 1.6;
   font-size: 15px;
 }
 
@@ -51,7 +51,7 @@ body {
 
 .masthead {
   background: linear-gradient(135deg, #111 0%, #1e293b 100%);
-  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 24px auto 0; border-radius: 10px 10px 0 0;
 }
 .masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
 .masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
@@ -64,7 +64,7 @@ body {
 .stats {
   display: flex; gap: 28px; flex-wrap: wrap;
   padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
-  max-width: 760px; margin: 0 auto;
+  max-width: 760px; margin: 0 auto; border-radius: 0 0 10px 10px;
 }
 .stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
 
@@ -102,7 +102,7 @@ body {
 
 /* Summary */
 .summary {
-  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+  font-size: 14.5px; color: var(--text); line-height: 1.65; margin: 14px 0;
 }
 
 /* Exchange (대통령 발언 + 부처 답변) */
@@ -123,11 +123,6 @@ body {
 .ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
 
 /* Actions */
-.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
-.actions ul { margin: 0; padding-left: 18px; }
-.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
-.actions li strong { color: var(--text); }
-
 /* Summary bullets */
 .summary ul { margin: 0; padding-left: 18px; }
 .summary li { margin-bottom: 4px; }
@@ -181,9 +176,9 @@ body {
 </div>
 
 <div class="stats">
-  <div><span class="v">7</span>주요 안건</div>
-  <div><span class="v">22</span>지시·결정 사항</div>
-  <div><span class="v">17</span>주요 워딩</div>
+  <div><span class="v">7</span>주요 안건.</div>
+  <div><span class="v">22</span>주요 워딩.</div>
+  <div><span class="v">20,761</span>글자 수.</div>
 </div>
 
 <div class="container">
@@ -220,12 +215,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"군용기, 전세기, 육로 교통 등 가능한 모든 수단을 총동원하길 바랍니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 금융시장 변동성·에너지 수급·민생물가 3축 비상 대응</li>
-      <li><strong>전 부처</strong> 매점매석·폭리 무관용 단속 — 제재 방안 논의</li>
-      <li><strong>외교부·국방부</strong> 재외국민 안전 — 군용기·전세기·육로 총동원</li>
-    </ul></div>
   </div>
 </div>
 
@@ -244,12 +233,6 @@ body {
         <div class="ex-resp"><span class="role">외교부 장관</span><br>"이란 체류 한국인 173명이 터키로 대피했고, 바레인 13명·이라크 2명도 안전한 지역으로 이동했습니다. 대사급 2명을 단장으로 합동 신속대응팀을 오늘 밤 파견합니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>외교부</strong> 대사급 합동 신속대응팀 중동 파견</li>
-      <li><strong>외교부</strong> 중동 전역 여행경보 2단계 이상 발령 + 체류 국민 안전 확인</li>
-      <li><strong>동포청</strong> 귀국 교민 심리 지원 전담 창구 설치</li>
-    </ul></div>
   </div>
 </div>
 
@@ -272,13 +255,6 @@ body {
         <div class="ex-resp"><span class="role">금융위원장</span><br>"구조적 문제 없는데 일시적 비정상 발생 시 교정하기 위한 것입니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>재경부</strong> 100조 원+ 채권·단기자금시장 안정기금 운영</li>
-      <li><strong>재경부·중기부</strong> 중동 피해 중소기업 20.3조 원 정책금융 지원</li>
-      <li><strong>재경부</strong> 민생물가 특별관리품목 담합·불공정행위 엄단</li>
-      <li><strong>해수부</strong> 호르무즈 인근 선원 186명 안전 확보 + 선용품 보급</li>
-    </ul></div>
   </div>
 </div>
 
@@ -308,13 +284,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"가격 비교 사이트도 만들고, 최고가격 지정도 너무 망설이지 말고 하십시오. 손해 보게 할 일은 없습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>재경부</strong> 석유류 최고가격 지정 — 물가안정법 2조 적용</li>
-      <li><strong>공정위</strong> 주유소 가격 담합 조사 — 가격 높은 지역 우선</li>
-      <li><strong>산업부</strong> 범부처 석유시장 점검단 강화 + 가짜석유·정량 위반 단속</li>
-      <li><strong>재경부</strong> 주유소 매입가격 공개 + 가격 비교 사이트 구축</li>
-    </ul></div>
   </div>
 </div>
 
@@ -337,11 +306,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"비축유도 위기 상황을 대비한 거니까 시중에 부족함이 없도록 잘 운영하길 바랍니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>산업부</strong> 비축유 세부 방출 계획 수립 — 수급 위기 시 즉시 대응</li>
-      <li><strong>산업부</strong> 중동 외 에너지 공급원(호주·미국·말레이시아) 물량 확보 추진</li>
-    </ul></div>
   </div>
 </div>
 
@@ -367,13 +331,6 @@ body {
         <div class="ex-resp"><span class="role">산업부·재경부</span><br>"이번 기회에 인식도 바꾸고 의존도를 최소화하는 방향으로 가속하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>금융위</strong> 자본시장 체질 개선 가속 — 지배구조·불공정거래·주가조작 근절</li>
-      <li><strong>금융위</strong> 상속 대비 주가 억압 시정 입법 추진</li>
-      <li><strong>금융위</strong> 시장 교란·가짜뉴스 무관용 엄단</li>
-      <li><strong>산업부·기후에너지부</strong> 재생에너지 전환 가속화 + 전기요금 차등제 검토</li>
-    </ul></div>
   </div>
 </div>
 
@@ -395,11 +352,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"안보의 핵심은 상대를 자극해서 싸워서 이기는 게 아니고, 싸울 필요가 없게 만드는 평화 체제를 구축하는 게 가장 확실한 안보 아니겠습니까?"</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>국방부</strong> 24시간 위기대응 체계 + 군 수송기 즉각 출동 준비</li>
-      <li><strong>국방부</strong> 해파 부대 영내 안전대책·방호시설 강화</li>
-    </ul></div>
   </div>
 </div>
 

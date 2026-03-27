@@ -15,7 +15,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
-  background: var(--bg); color: var(--text); line-height: 1.8;
+  background: var(--bg); color: var(--text); line-height: 1.6;
   font-size: 15px;
 }
 
@@ -51,7 +51,7 @@ body {
 
 .masthead {
   background: linear-gradient(135deg, #111 0%, #1e293b 100%);
-  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 24px auto 0; border-radius: 10px 10px 0 0;
 }
 .masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
 .masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
@@ -64,7 +64,7 @@ body {
 .stats {
   display: flex; gap: 28px; flex-wrap: wrap;
   padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
-  max-width: 760px; margin: 0 auto;
+  max-width: 760px; margin: 0 auto; border-radius: 0 0 10px 10px;
 }
 .stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
 
@@ -102,7 +102,7 @@ body {
 
 /* Summary */
 .summary {
-  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+  font-size: 14.5px; color: var(--text); line-height: 1.65; margin: 14px 0;
 }
 
 /* Exchange (대통령 발언 + 부처 답변) */
@@ -123,11 +123,6 @@ body {
 .ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
 
 /* Actions */
-.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
-.actions ul { margin: 0; padding-left: 18px; }
-.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
-.actions li strong { color: var(--text); }
-
 /* Summary bullets */
 .summary ul { margin: 0; padding-left: 18px; }
 .summary li { margin-bottom: 4px; }
@@ -182,9 +177,9 @@ body {
 </div>
 
 <div class="stats">
-  <div><span class="v">17</span>주요 안건</div>
-  <div><span class="v">33</span>지시·결정 사항</div>
-  <div><span class="v">35</span>주요 워딩</div>
+  <div><span class="v">17</span>주요 안건.</div>
+  <div><span class="v">54</span>주요 워딩.</div>
+  <div><span class="v">43,244</span>글자 수.</div>
 </div>
 
 <div class="container">
@@ -218,12 +213,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"취약계층, 수출기업 지원 등을 위해서 전쟁 추경을 신속하게 편성해 주시기 바랍니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 대체 공급선 발굴 총력</li>
-      <li><strong>기획예산처</strong> 전쟁 추경 신속 편성</li>
-      <li><strong>전 부처</strong> 5부제·10부제 등 수요 절감 대책 수립</li>
-    </ul></div>
   </div>
 </div>
 
@@ -245,11 +234,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"균형발전영향평가를 모든 정책에 필수적으로 한다든지 하는 제도도 만들어야 되지 않을까 싶습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 재정·세제·금융·규제를 지방주도 균형성장에 맞춰 정비</li>
-      <li><strong>행안부</strong> 균형발전영향평가 제도 도입 검토</li>
-    </ul></div>
   </div>
 </div>
 
@@ -271,11 +255,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"야간 진압은 사다 놓고 안 쓰면 안 되잖아요. 8대인가 사놨다고 하니까 잘 쓰도록 하십시오."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>행안부·경찰·소방</strong> BTS 공연 안전대책 총력</li>
-      <li><strong>산림청</strong> 야간 진압 헬기 훈련 및 활용</li>
-    </ul></div>
   </div>
 </div>
 
@@ -299,11 +278,6 @@ body {
         <div class="ex-resp"><span class="role">법무부</span><br>"검사 6명, 경찰 11명 투입해 합동수사 진행 중입니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>국토부·총리실</strong> 129 참사 사고조사위 신속 구성</li>
-      <li><strong>법무부·경찰</strong> 이태원 합동수사 속도 제고</li>
-    </ul></div>
   </div>
 </div>
 
@@ -326,10 +300,6 @@ body {
         <div class="ex-resp"><span class="role">국무조정실</span><br>"정부 차원에서 공식 검토를 하고 기초자료를 모으도록 하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>법제처·국무조정실</strong> 단계적 개헌 기초자료 정리 착수</li>
-    </ul></div>
   </div>
 </div>
 
@@ -351,10 +321,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"세금은 핵폭탄 같은 거죠. 함부로 쓰면 안 되는데 반드시 써서라도 해야 되는 거죠. 준비 잘 하십시오."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>금융위</strong> 부동산 투기 억제 금융 규제 방안 준비</li>
-    </ul></div>
   </div>
 </div>
 
@@ -382,12 +348,6 @@ body {
         <div class="ex-resp"><span class="role">외교부</span><br>"중동 지역 4개국 체류 204명의 우리 국민과 7명의 외국인이 무사히 입국했습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>산업부</strong> 최고가격제 위반 주유소 단속 강화·원스트라이크아웃</li>
-      <li><strong>기획재경부</strong> 나프타 경제안보품목 지정</li>
-      <li><strong>산업부</strong> 긴급 물류비 바우처 도입</li>
-    </ul></div>
   </div>
 </div>
 
@@ -414,11 +374,6 @@ body {
         <div class="ex-resp"><span class="role">기획예산처</span><br>"추경 지금 밤새워서 만들고 있습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>기획재경부</strong> 조세지출 제도 제로베이스 정비</li>
-      <li><strong>기획예산처</strong> 추경에 직접 소득지원 방식 반영</li>
-    </ul></div>
   </div>
 </div>
 
@@ -442,11 +397,6 @@ body {
         <div class="ex-resp"><span class="role">농림부</span><br>"필요하면 시정명령도 검토하도록 하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>산업부·국세청</strong> 부당 가격 인상 주유소 세무조사</li>
-      <li><strong>농림부</strong> 농협 주유소 시정명령 검토</li>
-    </ul></div>
   </div>
 </div>
 
@@ -469,10 +419,6 @@ body {
         <div class="ex-resp"><span class="role">금융위</span><br>"적극적으로 협의하도록 하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>금융위·법무부</strong> 상법·자본시장법 국회 협의 적극 추진</li>
-    </ul></div>
   </div>
 </div>
 
@@ -492,10 +438,6 @@ body {
         <div class="ex-resp"><span class="role">행안부</span><br>"지역별 발전 정도에 따라 지원될 수 있도록 설계했습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>행안부</strong> 지방우대지수 상반기 중 시범 적용</li>
-    </ul></div>
   </div>
 </div>
 
@@ -522,12 +464,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"너무 흩뿌려져서 효과가 없게 하면 안 되고 모닥불처럼 모아서 앵커 역할을 할 수 있게."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>기획예산처</strong> 27년 예산 전 재정사업 지방우대 적용</li>
-      <li><strong>기획예산처</strong> 포괄보조사업 추가 확대·초광역계정 신설</li>
-      <li><strong>기획예산처</strong> 예타 인구감소지역 가중치 5%p 상향</li>
-    </ul></div>
   </div>
 </div>
 
@@ -547,10 +483,6 @@ body {
         <div class="ex-resp"><span class="role">국토부</span><br>"통합은 9월 중에 마무리할 생각이고 근로자 문제는 통합 후 차츰 해결하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>국토부</strong> 코레일·SR 통합 9월 완료</li>
-    </ul></div>
   </div>
 </div>
 
@@ -572,10 +504,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"정부 부처들은 모아놔야 돼요. 지금 농축산부 광주 갔다 언제 올까요."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>해수부</strong> 해운기업 30개사 부산 유치 추진</li>
-    </ul></div>
   </div>
 </div>
 
@@ -598,12 +526,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"재정도 민간도 아닌 중간, 제3섹터를 최대한 많이 발굴해서 합시다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>금융위</strong> 국민참여형 펀드 5월 출시</li>
-      <li><strong>금융위·산업부</strong> 2차 메가 프로젝트 발굴</li>
-      <li><strong>기후에너지부</strong> 송배전망 구축 국민투자 방안 검토</li>
-    </ul></div>
   </div>
 </div>
 
@@ -627,12 +549,6 @@ body {
         <div class="ex-resp"><span class="role">중기부</span><br>"1357번호 하나로 통합해서 자동 연결되는 체계를 구축하겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>중기부</strong> 신청서류 50% 감축, 사업계획서 30% 감축</li>
-      <li><strong>중기부</strong> AI 통합지원 플랫폼 5월 시범 오픈</li>
-      <li><strong>중기부</strong> 유선상담 1357 통합</li>
-    </ul></div>
   </div>
 </div>
 
@@ -655,11 +571,6 @@ body {
         <div class="ex-resp"><span class="role">행안부</span><br>"내년 정도면 완벽하게 가능합니다. 대신 신청도 예약도 해줍니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>행안부·과기부</strong> AI 민원서비스 확대 및 모두의 AI 교육 누락 방지</li>
-      <li><strong>국민권익위</strong> 갈등조정 담당관 각 부처 지정·교육</li>
-    </ul></div>
   </div>
 </div>
 

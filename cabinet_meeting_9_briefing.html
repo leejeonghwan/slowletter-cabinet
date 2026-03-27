@@ -15,7 +15,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
-  background: var(--bg); color: var(--text); line-height: 1.8;
+  background: var(--bg); color: var(--text); line-height: 1.6;
   font-size: 15px;
 }
 
@@ -51,7 +51,7 @@ body {
 
 .masthead {
   background: linear-gradient(135deg, #111 0%, #1e293b 100%);
-  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 24px auto 0; border-radius: 10px 10px 0 0;
 }
 .masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
 .masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
@@ -64,7 +64,7 @@ body {
 .stats {
   display: flex; gap: 28px; flex-wrap: wrap;
   padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
-  max-width: 760px; margin: 0 auto;
+  max-width: 760px; margin: 0 auto; border-radius: 0 0 10px 10px;
 }
 .stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
 
@@ -102,7 +102,7 @@ body {
 
 /* Summary */
 .summary {
-  font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0;
+  font-size: 14.5px; color: var(--text); line-height: 1.65; margin: 14px 0;
 }
 
 /* Exchange (대통령 발언 + 부처 답변) */
@@ -123,11 +123,6 @@ body {
 .ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
 
 /* Actions */
-.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
-.actions ul { margin: 0; padding-left: 18px; }
-.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
-.actions li strong { color: var(--text); }
-
 /* Summary bullets */
 .summary ul { margin: 0; padding-left: 18px; }
 .summary li { margin-bottom: 4px; }
@@ -181,9 +176,9 @@ body {
 </div>
 
 <div class="stats">
-  <div><span class="v">10</span>주요 안건</div>
-  <div><span class="v">31</span>지시·결정 사항</div>
-  <div><span class="v">24</span>주요 워딩</div>
+  <div><span class="v">10</span>주요 안건.</div>
+  <div><span class="v">32</span>주요 워딩.</div>
+  <div><span class="v">45,360</span>글자 수.</div>
 </div>
 
 <div class="container">
@@ -220,12 +215,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"주한미군 장비 반출로 우리 대북 억지 전략에 장애가 생기느냐 묻는다면, 전적으로 그렇지 않다고 말씀드릴 수 있습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>전 부처</strong> 물가 안정 — 석유 최고가격제·세제 조정·소비자 직접 지원 신속 검토</li>
-      <li><strong>외교부·국방부</strong> 재외국민 전세기·군용기·육로 대피 총력 추진</li>
-      <li><strong>국무총리</strong> 국가정상화위원회(비정상의 정상화) 조직 구성 논의</li>
-    </ul></div>
   </div>
 </div>
 
@@ -249,12 +238,6 @@ body {
         <div class="ex-resp"><span class="role">외교부 장관</span><br>"650명입니다. 개별적으로는 돌아오고 싶은데 회사 차원에서 안 된다는 상황입니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>외교부</strong> 13개 공관 재외국민 안전 대책 상시 점검</li>
-      <li><strong>국방부</strong> 군용기 4대 비상 대기 유지 — 추가 전세기 투입 준비</li>
-      <li><strong>외교부</strong> 카타르 항공 등 현지 근무 한국인 귀국 지원 교섭</li>
-    </ul></div>
   </div>
 </div>
 
@@ -281,14 +264,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"주식시장 제도 개선, 코스닥 정비, 상속 대비 주가 억압 같은 것들 이번 기회에 속도를 내면 좋겠어요."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>재경부</strong> 비상경제 관계장관회의 매주 운영 + 비상 대응반 차관급 격상</li>
-      <li><strong>재경부</strong> 유류세 인하 + 서민 직접 지원 혼합 방안 설계</li>
-      <li><strong>산업부</strong> 대체 에너지 전환 가속화 — 재생에너지·전기차 확대</li>
-      <li><strong>재경부</strong> 주식시장 투명성·공정성 제도 개선 속도전</li>
-      <li><strong>전 부처</strong> 추경 편성 검토 — 소상공인·한계기업 지원 재정 확보</li>
-    </ul></div>
   </div>
 </div>
 
@@ -314,13 +289,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"주가 조작에 동원된 원금도 몰수하고, 그 몰수 금액에 대해서도 포상금을 주는 걸로."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>산업부</strong> 석유사업법 최고가격제 금주 내 고시 시행</li>
-      <li><strong>공정위</strong> 담합 신고 포상금 과징금 10% 상한 없이 — 고시 개정(5월 말)</li>
-      <li><strong>전 부처</strong> 가담자 면책·감면 + 차등 포상금 제도 확대</li>
-      <li><strong>법무부·금융위</strong> 주가 조작 원금 몰수 + 포상금 연계</li>
-    </ul></div>
   </div>
 </div>
 
@@ -343,12 +311,6 @@ body {
         <div class="ex-resp"><span class="role">공정위</span><br>"생리대 사업자들이 자발적으로 가격을 인하한 것은 고무적이나, 영업이익률이 높아 인하 여력은 더 있다고 판단합니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>성평등가족부</strong> 공공 생리대 시범사업 — 전국 10개 지역 하반기 시행</li>
-      <li><strong>식약처</strong> 100원대 생리대 안전성 심사 신속 처리(3주 이내)</li>
-      <li><strong>전 부처</strong> 국민 필수품 독과점 가격 점검 + 기본 공공물품 리스트 정리</li>
-    </ul></div>
   </div>
 </div>
 
@@ -370,13 +332,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"스토킹, 교제 폭력 피해자들이 보호 조치 미흡으로 추가 피해를 당하는 경우가 발생하지 않게 잘 챙겨 주시기 바랍니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>법무부</strong> 가해자 석방·출소 자동 통지 시스템 구축</li>
-      <li><strong>법무부</strong> 6월 피해자 모바일 앱 — 가해자 실시간 위치 제공</li>
-      <li><strong>법무부</strong> 교제폭력 전자장치 부착 잠정조치 입법 추진</li>
-      <li><strong>성평등가족부</strong> 스토킹·교제폭력 피해자 전주기 지원 강화</li>
-    </ul></div>
   </div>
 </div>
 
@@ -399,13 +354,6 @@ body {
         <div class="ex-resp"><span class="role">부장관</span><br>"일부 부처에서 남성분들이 육아휴직 사용에 어려움이 있다는 제보가 있습니다. 부처 장관님들께서 남녀 육아휴직 사용 비율을 챙겨봐 주시면 좋겠습니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>성평등가족부</strong> 경력보유 여성 정책 — 재취업에서 고용 유지(예방) 중심 전환</li>
-      <li><strong>노동부</strong> 맞돌봄 확산 + 육아기 10시 출근제 + 8월 단기 휴직제 도입</li>
-      <li><strong>노동부</strong> 남성 육아휴직 촉진 제도 검토 — 북유럽 사례 참고</li>
-      <li><strong>전 부처</strong> 부처 내 남녀 육아휴직 사용 비율 점검</li>
-    </ul></div>
   </div>
 </div>
 
@@ -427,11 +375,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"전세 사기 문제는 정부 정책에 문제가 있어서 생긴 측면이 있어서, 어느 정도 정부가 책임을 지는 게 맞다고 생각합니다."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>국토부</strong> 안심 전세 앱 고도화(8월) + 9월 서비스 개시</li>
-      <li><strong>국토부</strong> 대항력 공백 축소 + 공인중개사 설명 의무 강화</li>
-    </ul></div>
   </div>
 </div>
 
@@ -454,12 +397,6 @@ body {
         <div class="ex-pres"><span class="role">대통령</span><br>"대통령이 말하는데도 시행이 안 되나 봐, 콩가루 집안인가 봐, 이렇게 되면 안 됩니다. 신속하게 해명도 하시고 시행도 해 주십시오."</div>
       </div>
     </div>
-    <div class="act-label">지시·결정사항</div>
-    <div class="actions"><ul>
-      <li><strong>노동부</strong> 개정 노동조합법 시행 — 전문가 자문위·원하청 교섭 매뉴얼 마련</li>
-      <li><strong>노동부</strong> 2,200개 공공기관·지방정부 비정규직 실태조사 완료</li>
-      <li><strong>전 부처</strong> 공공부문 적정 임금·정규직 전환 계획 수립</li>
-    </ul></div>
   </div>
 </div>
 
