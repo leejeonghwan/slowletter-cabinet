@@ -353,16 +353,15 @@ function renderCard(item, q) {
       }).join('') + '</ul></div>';
   }
 
-  var linkHtml = '<a class="briefing-link" href="' + file + '#' + (item.id || '') + '">전체 브리핑에서 보기 &rarr;</a>';
+  var linkHtml = '<a class="briefing-link" href="' + file + '#' + (item.id || '') + '">' + item.meeting + '회 국무회의 전체 보기. &rarr;</a>';
 
   return '<div class="topic-card" id="' + anchor + '">' +
     '<div class="topic-head" onclick="toggleCard(this)">' +
-      '<div class="topic-badge">' + badge + '</div>' +
       '<div class="topic-meta">' +
         '<h3>' + highlightText(item.title, q) +
           '<a class="permalink" href="#' + anchor + '" title="이 안건 링크" onclick="event.stopPropagation();">#</a>' +
         '</h3>' +
-        '<div class="date-line">' + item.date + '</div>' +
+        '<div class="date-line">' + item.date + ', ' + item.meeting + '회 국무회의.</div>' +
       '</div>' +
       '<span class="topic-chevron">&rsaquo;</span>' +
     '</div>' +
