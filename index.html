@@ -156,6 +156,8 @@ body {
 
 /* Summary */
 .summary { font-size: 15px; color: var(--text); line-height: 1.9; margin: 14px 0; }
+.summary p { margin: 0 0 10px; }
+.summary p:last-child { margin-bottom: 0; }
 .summary ul { margin: 0; padding-left: 20px; }
 .summary li { margin-bottom: 4px; }
 
@@ -323,9 +325,9 @@ function renderCard(item, q) {
 
   var summaryHtml = '';
   if (item.summary && item.summary.length) {
-    summaryHtml = '<div class="summary"><ul>' +
-      item.summary.map(function(s) { return '<li>' + highlightText(s, q) + '</li>'; }).join('') +
-      '</ul></div>';
+    summaryHtml = '<div class="summary">' +
+      item.summary.map(function(s) { return '<p>' + highlightText(s, q) + '</p>'; }).join('') +
+      '</div>';
   }
 
   var exHtml = '';
