@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>국무회의 안건 검색 — 슬로우레터</title>
+<meta property="og:title" content="국무회의 안건 검색 — 슬로우레터">
+<meta property="og:description" content="역대 국무회의 안건을 키워드·회차·부처별로 검색합니다.">
+<style>
+:root {
+  --bg: #fdad00; --card: #fff; --text: #1a1a1a; --sub: #555;
+  --accent: #1d4ed8; --accent2: #7c3aed; --border: #e5e7eb;
+  --green: #059669; --amber: #d97706;
+  --pres: #1e3a5f; --resp: #4a5568;
+  --sidebar-width: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; right: 0;
+  width: var(--sidebar-width); height: 100vh;
+  background: #1c1917; color: #e7e5e4;
+  padding: 1.5rem 1.2rem;
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto;
+}
+.sidebar .brand { font-size: 1.1rem; font-weight: 700; color: #fdad00; margin-bottom: 0.25rem; }
+.sidebar .brand-sub { font-size: 0.75rem; color: #a8a29e; margin-bottom: 1.2rem; }
+.sidebar .divider { border: none; border-top: 1px solid #333; margin: 1rem 0; }
+.sidebar .nav-label { font-size: 0.7rem; color: #a8a29e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.sidebar .nav-link {
+  display: block; padding: 0.55rem 0.8rem; margin-bottom: 0.3rem;
+  border-radius: 6px; font-size: 0.85rem; color: #e7e5e4;
+  text-decoration: none; transition: background 0.15s;
+}
+.sidebar .nav-link:hover { background: #333; }
+.sidebar .nav-link.active { background: #fdad00; color: #1c1917; font-weight: 600; }
+.sidebar-footer { margin-top: auto; font-size: 0.65rem; color: #57534e; }
+.sidebar-toggle {
+  display: none; position: fixed; top: 0.75rem; right: 0.75rem;
+  z-index: 200; background: #1c1917; color: #fdad00;
+  border: none; border-radius: 6px; padding: 0.5rem 0.7rem;
+  font-size: 1.1rem; cursor: pointer;
+}
+
+.main { margin-right: var(--sidebar-width); }
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #111 0%, #1e293b 100%);
+  color: #fff; padding: 40px 20px 32px; text-align: left;
+  max-width: 860px; margin: 0 auto;
+}
+.hero .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
+.hero h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
+.hero .lead { margin-top: 12px; font-size: 14px; opacity: .75; line-height: 1.6; }
+
+/* Stats bar */
+.stats-bar {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px;
+  max-width: 860px; margin: 0 auto;
+}
+.stats-bar .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
+
+/* Container */
+.container { max-width: 860px; margin: 0 auto; padding: 20px 16px; }
+
+/* Search & Filters */
+.search-box {
+  position: sticky; top: 0; z-index: 10; background: var(--bg);
+  padding: 8px 0 6px;
+}
+.search-box input {
+  width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb;
+  border-radius: 10px; font-size: 15px; outline: none;
+  background: #fff;
+}
+.search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,78,216,.1); }
+.search-box input::placeholder { color: #aaa; }
+
+.filters {
+  display: flex; gap: 8px; flex-wrap: wrap; padding: 8px 0 16px;
+  align-items: center;
+}
+.filter-chip {
+  padding: 5px 14px; border-radius: 20px; font-size: 12.5px;
+  border: 1px solid #d1d5db; background: #fff; color: var(--sub);
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+.filter-chip.active { background: var(--pres); color: #fff; border-color: var(--pres); }
+.filter-label { font-size: 11px; color: var(--sub); font-weight: 600; letter-spacing: .3px; }
+.result-count { font-size: 12px; color: var(--sub); margin-left: auto; }
+
+/* Topic card */
+.topic-card {
+  background: var(--card); border-radius: 10px; margin-bottom: 12px;
+  border: 1px solid var(--border); overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.topic-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.topic-head {
+  padding: 14px 18px; cursor: pointer;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.topic-badge {
+  font-size: 11px; font-weight: 700; color: #fff; background: var(--pres);
+  border-radius: 4px; padding: 3px 8px; white-space: nowrap; margin-top: 2px;
+  flex-shrink: 0;
+}
+.topic-meta { flex: 1; }
+.topic-meta h3 { font-size: 14.5px; font-weight: 700; line-height: 1.5; margin-bottom: 2px; }
+.topic-meta .date-line { font-size: 12px; color: var(--sub); }
+.topic-chevron { font-size: 18px; color: #bbb; transition: transform .2s; margin-top: 2px; flex-shrink: 0; }
+.topic-card.open .topic-chevron { transform: rotate(90deg); }
+.topic-body { display: none; padding: 0 18px 16px; border-top: 1px solid var(--border); }
+.topic-card.open .topic-body { display: block; }
+
+/* Summary */
+.summary { font-size: 13.5px; color: var(--text); line-height: 1.85; margin: 12px 0; }
+.summary ul { margin: 0; padding-left: 18px; }
+.summary li { margin-bottom: 3px; }
+
+/* Exchanges */
+.exchanges { margin: 12px 0; }
+.ex-label { font-size: 11px; font-weight: 700; color: var(--pres); letter-spacing: .5px; margin-bottom: 8px; }
+.exchange { margin-bottom: 8px; }
+.ex-pres {
+  background: #f0f4ff; border-left: 3px solid var(--pres);
+  padding: 8px 12px; border-radius: 0 6px 6px 0;
+  font-size: 13px; color: #1e3a5f; line-height: 1.7;
+}
+.ex-pres .role { font-weight: 700; font-size: 10.5px; display: inline-block; margin-bottom: 1px; }
+.ex-resp {
+  background: #f8faf8; border-left: 3px solid #94a3b8;
+  padding: 8px 12px; margin-top: 2px; border-radius: 0 6px 6px 0;
+  font-size: 12.5px; color: var(--resp); line-height: 1.7;
+}
+.ex-resp .role { font-weight: 700; font-size: 10.5px; color: var(--green); display: inline-block; margin-bottom: 1px; }
+
+/* Actions */
+.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 10px 0 4px; }
+.actions ul { margin: 0; padding-left: 18px; }
+.actions li { font-size: 12.5px; line-height: 1.7; color: var(--sub); margin-bottom: 2px; }
+.actions li strong { color: var(--text); }
+
+/* Link to full briefing */
+.briefing-link {
+  display: inline-block; margin-top: 10px; font-size: 12px;
+  color: var(--accent); text-decoration: none; font-weight: 600;
+}
+.briefing-link:hover { text-decoration: underline; }
+
+/* Highlight */
+mark { background: #fef08a; padding: 0 2px; border-radius: 2px; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 60px 20px; color: var(--sub); font-size: 14px; }
+
+.footer { text-align: left; padding: 36px 16px; color: #aaa; font-size: 11px; line-height: 1.7; max-width: 860px; margin: 0 auto; }
+.footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: block; }
+  .main { margin-right: 0; }
+  .hero h1 { font-size: 19px; }
+  .stats-bar { gap: 14px; }
+  .filters { gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+
+<aside class="sidebar" id="sidebar">
+  <a href="https://slownews.kr" target="_blank" rel="noopener" style="text-decoration:none;">
+    <div class="brand">슬로우레터</div>
+  </a>
+  <div class="brand-sub">국무회의 브리핑.</div>
+  <hr class="divider">
+  <div class="nav-label">회의록</div>
+  <div id="sidebar-nav"></div>
+  <hr class="divider">
+  <a class="nav-link active" href="search.html">안건 검색</a>
+  <a class="nav-link" href="./">전체 목록</a>
+  <div class="sidebar-footer">
+    <hr class="divider">
+    <span style="color:#fdad00;">slownews.kr</span>
+  </div>
+</aside>
+
+<div class="main">
+
+<div class="hero">
+  <div class="label">국무회의 브리핑</div>
+  <h1>안건 검색.</h1>
+  <div class="lead">역대 국무회의 안건을 키워드·회차·부처별로 검색합니다.</div>
+</div>
+
+<div class="stats-bar">
+  <div><span class="v" id="stat-meetings">-</span>회의</div>
+  <div><span class="v" id="stat-topics">-</span>안건</div>
+  <div><span class="v" id="stat-actions">-</span>지시사항</div>
+  <div><span class="v" id="stat-exchanges">-</span>주요 워딩</div>
+</div>
+
+<div class="container">
+
+<div class="search-box">
+  <input type="text" id="q" placeholder="키워드 검색 — 안건, 발언, 부처명..." autofocus>
+</div>
+
+<div class="filters" id="filters">
+  <span class="filter-label">회차</span>
+  <div id="meeting-filters"></div>
+  <span class="result-count" id="result-count"></span>
+</div>
+
+<div id="results"></div>
+
+<div class="footer">
+  국무회의 브리핑 — <a href="https://slownews.kr" target="_blank">slownews.kr</a><br>
+  AI 분석 · 사람 편집
+</div>
+
+</div>
+</div>
+
+<script>
+var DATA = [];
+var currentMeeting = null;
+var currentQuery = '';
+
+var meetingFiles = {
+  5: 'cabinet_meeting_5_briefing.html',
+  6: 'cabinet_meeting_6_briefing.html',
+  8: 'cabinet_meeting_8_briefing.html',
+  9: 'cabinet_meeting_9_briefing.html',
+  10: 'cabinet_meeting_10_briefing.html',
+  11: 'cabinet_meeting_11_briefing.html',
+  13: 'cabinet_meeting_13_briefing.html'
+};
+
+function esc(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function highlightText(text, q) {
+  if (!q) return esc(text);
+  var escaped = esc(text);
+  var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  return escaped.replace(re, '<mark>$1</mark>');
+}
+
+function renderCard(item, q) {
+  var badge = '제' + item.meeting + '회';
+  var dateLine = item.date;
+  var file = meetingFiles[item.meeting] || '#';
+
+  var summaryHtml = '';
+  if (item.summary && item.summary.length) {
+    summaryHtml = '<div class="summary"><ul>' +
+      item.summary.map(function(s) { return '<li>' + highlightText(s, q) + '</li>'; }).join('') +
+      '</ul></div>';
+  }
+
+  var exHtml = '';
+  if (item.exchanges && item.exchanges.length) {
+    exHtml = '<div class="exchanges"><div class="ex-label">대통령 발언 / 부처 답변</div>';
+    item.exchanges.forEach(function(ex) {
+      exHtml += '<div class="exchange">';
+      if (ex.president) {
+        exHtml += '<div class="ex-pres"><span class="role">대통령</span><br>"' + highlightText(ex.president, q) + '"</div>';
+      }
+      if (ex.response) {
+        var dept = ex.dept || '';
+        exHtml += '<div class="ex-resp"><span class="role">' + esc(dept) + '</span><br>"' + highlightText(ex.response, q) + '"</div>';
+      }
+      exHtml += '</div>';
+    });
+    exHtml += '</div>';
+  }
+
+  var actHtml = '';
+  if (item.actions && item.actions.length) {
+    actHtml = '<div class="act-label">지시·결정사항</div><div class="actions"><ul>' +
+      item.actions.map(function(a) {
+        return '<li><strong>' + highlightText(a.dept, q) + '</strong> ' + highlightText(a.desc, q) + '</li>';
+      }).join('') + '</ul></div>';
+  }
+
+  var linkHtml = '<a class="briefing-link" href="' + file + '">전체 브리핑 보기 →</a>';
+
+  return '<div class="topic-card" id="card-' + item.meeting + '-' + (item.id || '') + '">' +
+    '<div class="topic-head" onclick="this.parentElement.classList.toggle(\'open\')">' +
+      '<div class="topic-badge">' + badge + '</div>' +
+      '<div class="topic-meta">' +
+        '<h3>' + highlightText(item.title, q) + '</h3>' +
+        '<div class="date-line">' + dateLine + '</div>' +
+      '</div>' +
+      '<span class="topic-chevron">›</span>' +
+    '</div>' +
+    '<div class="topic-body">' +
+      summaryHtml + exHtml + actHtml + linkHtml +
+    '</div>' +
+  '</div>';
+}
+
+function matchItem(item, q) {
+  if (!q) return true;
+  var ql = q.toLowerCase();
+  var searchable = (item.title || '') + ' ' +
+    (item.summary || []).join(' ') + ' ' +
+    (item.exchanges || []).map(function(e) { return (e.president||'') + ' ' + (e.response||'') + ' ' + (e.dept||''); }).join(' ') + ' ' +
+    (item.actions || []).map(function(a) { return a.dept + ' ' + a.desc; }).join(' ');
+  return searchable.toLowerCase().indexOf(ql) >= 0;
+}
+
+function render() {
+  var q = currentQuery;
+  var filtered = DATA.filter(function(item) {
+    if (currentMeeting !== null && item.meeting !== currentMeeting) return false;
+    return matchItem(item, q);
+  });
+
+  var resultsEl = document.getElementById('results');
+  if (filtered.length === 0) {
+    resultsEl.innerHTML = '<div class="empty-state">검색 결과가 없습니다.</div>';
+  } else {
+    resultsEl.innerHTML = filtered.map(function(item) { return renderCard(item, q); }).join('');
+  }
+
+  document.getElementById('result-count').textContent = filtered.length + '건';
+}
+
+function setupFilters() {
+  var meetings = [];
+  var seen = {};
+  DATA.forEach(function(item) {
+    if (!seen[item.meeting]) {
+      seen[item.meeting] = true;
+      meetings.push({ no: item.meeting, date: item.date });
+    }
+  });
+  meetings.sort(function(a, b) { return b.no - a.no; });
+
+  var html = '<span class="filter-chip' + (currentMeeting === null ? ' active' : '') + '" data-m="all">전체</span>';
+  meetings.forEach(function(m) {
+    var active = currentMeeting === m.no ? ' active' : '';
+    html += '<span class="filter-chip' + active + '" data-m="' + m.no + '">' + m.no + '회</span>';
+  });
+  document.getElementById('meeting-filters').innerHTML = html;
+
+  document.querySelectorAll('.filter-chip').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var val = this.getAttribute('data-m');
+      currentMeeting = val === 'all' ? null : parseInt(val);
+      document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+      this.classList.add('active');
+      render();
+    });
+  });
+
+  // sidebar nav
+  var navHtml = '';
+  meetings.forEach(function(m) {
+    navHtml += '<a class="nav-link" href="' + (meetingFiles[m.no] || '#') + '">제' + m.no + '회 <span style="opacity:.6;font-size:.75rem;">' + m.date + '</span></a>';
+  });
+  document.getElementById('sidebar-nav').innerHTML = navHtml;
+}
+
+function updateStats() {
+  var meetings = new Set();
+  var totalActions = 0;
+  var totalExchanges = 0;
+  DATA.forEach(function(item) {
+    meetings.add(item.meeting);
+    totalActions += (item.actions || []).length;
+    totalExchanges += (item.exchanges || []).length;
+  });
+  document.getElementById('stat-meetings').textContent = meetings.size;
+  document.getElementById('stat-topics').textContent = DATA.length;
+  document.getElementById('stat-actions').textContent = totalActions;
+  document.getElementById('stat-exchanges').textContent = totalExchanges;
+}
+
+// debounce
+var searchTimer;
+document.getElementById('q').addEventListener('input', function() {
+  var self = this;
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(function() {
+    currentQuery = self.value.trim();
+    render();
+  }, 200);
+});
+
+// Load data
+fetch('data/briefings.json')
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    DATA = data;
+    updateStats();
+    setupFilters();
+    render();
+  })
+  .catch(function() {
+    document.getElementById('results').innerHTML = '<div class="empty-state">데이터를 불러올 수 없습니다.</div>';
+  });
+</script>
+</body>
+</html>
