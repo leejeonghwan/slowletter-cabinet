@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제4회 국무회의 브리핑 (2026-02-03)</title>
+<style>
+:root {
+  --bg: #fdad00; --card: #fff; --text: #1a1a1a; --sub: #555;
+  --accent: #1d4ed8; --accent2: #7c3aed; --border: #e5e7eb;
+  --green: #059669; --amber: #d97706;
+  --pres: #1e3a5f; --resp: #4a5568;
+  --sidebar-width: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.8;
+  font-size: 15px;
+}
+.sidebar {
+  position: fixed; top: 0; right: 0;
+  width: var(--sidebar-width); height: 100vh;
+  background: #1c1917; color: #e7e5e4;
+  padding: 1.5rem 1.2rem;
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto;
+}
+.sidebar .brand { font-size: 1.1rem; font-weight: 700; color: #fdad00; margin-bottom: 0.25rem; }
+.sidebar .brand-sub { font-size: 0.75rem; color: #a8a29e; margin-bottom: 1.2rem; letter-spacing: 0; }
+.sidebar .divider { border: none; border-top: 1px solid #333; margin: 1rem 0; }
+.sidebar .nav-label { font-size: 0.7rem; color: #a8a29e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.sidebar .nav-link {
+  display: block; padding: 0.55rem 0.8rem; margin-bottom: 0.3rem;
+  border-radius: 6px; font-size: 0.85rem; color: #e7e5e4;
+  text-decoration: none; transition: background 0.15s;
+}
+.sidebar .nav-link:hover { background: #333; }
+.sidebar .nav-link.active { background: #fdad00; color: #1c1917; font-weight: 600; }
+.sidebar-footer { margin-top: auto; font-size: 0.65rem; color: #57534e; }
+.sidebar-toggle {
+  display: none; position: fixed; top: 0.75rem; right: 0.75rem;
+  z-index: 200; background: #1c1917; color: #fdad00;
+  border: none; border-radius: 6px; padding: 0.5rem 0.7rem;
+  font-size: 1.1rem; cursor: pointer;
+}
+.main { margin-right: var(--sidebar-width); }
+.masthead {
+  background: linear-gradient(135deg, #111 0%, #1e293b 100%);
+  color: #fff; padding: 40px 20px 32px; text-align: left; max-width: 760px; margin: 0 auto;
+}
+.masthead .label { font-size: 12px; opacity: .5; letter-spacing: 3px; text-transform: uppercase; }
+.masthead h1 { font-size: 24px; font-weight: 800; margin: 8px 0 6px; line-height: 1.4; }
+.masthead .meta { font-size: 13px; opacity: .7; }
+.masthead .lead { margin-top: 18px; font-size: 15px; opacity: .9; line-height: 1.65; max-width: 640px; }
+.stats { display: flex; gap: 28px; flex-wrap: wrap; padding: 14px 20px; background: #0f172a; color: #94a3b8; font-size: 12px; max-width: 760px; margin: 0 auto; }
+.stats .v { color: #fff; font-weight: 700; font-size: 17px; display: block; }
+.container { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+.note { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 12px; color: #92400e; line-height: 1.6; }
+.note a { color: #92400e; font-weight: 600; }
+.search { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 8px 0 12px; }
+.search input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; }
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
+.topic { background: var(--card); border-radius: 10px; margin-bottom: 14px; border: 1px solid var(--border); overflow: hidden; }
+.topic:hover { box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+.topic-head { padding: 16px 18px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px; }
+.topic-info { flex: 1; }
+.topic-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 0; line-height: 1.5; }
+.topic-chevron { font-size: 18px; color: #bbb; transition: transform .2s; margin-top: 2px; flex-shrink: 0; }
+.topic.open .topic-chevron { transform: rotate(90deg); }
+.topic-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+.topic.open .topic-body { display: block; }
+.summary { font-size: 14.5px; color: var(--text); line-height: 1.85; margin: 14px 0; }
+.exchanges { margin: 14px 0; }
+.ex-label { font-size: 11px; font-weight: 700; color: var(--pres); letter-spacing: .5px; margin-bottom: 8px; }
+.exchange { margin-bottom: 10px; }
+.ex-pres { background: #f0f4ff; border-left: 3px solid var(--pres); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 13.5px; color: #1e3a5f; line-height: 1.7; }
+.ex-pres .role { font-weight: 700; font-size: 11px; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+.ex-resp { background: #f8faf8; border-left: 3px solid #94a3b8; padding: 10px 14px; margin-top: 2px; border-radius: 0 6px 6px 0; font-size: 13px; color: var(--resp); line-height: 1.7; }
+.ex-resp .role { font-weight: 700; font-size: 11px; color: #059669; letter-spacing: .3px; display: inline-block; margin-bottom: 2px; }
+.act-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .5px; margin: 12px 0 6px; }
+.actions ul { margin: 0; padding-left: 18px; }
+.actions li { font-size: 13px; line-height: 1.7; color: var(--sub); margin-bottom: 3px; }
+.actions li strong { color: var(--text); }
+.summary ul { margin: 0; padding-left: 18px; }
+.summary li { margin-bottom: 4px; }
+.footer { text-align: left; padding: 36px 16px; color: #aaa; font-size: 11px; line-height: 1.7; max-width: 760px; margin: 0 auto; }
+.footer a { color: var(--accent); text-decoration: none; }
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: block; }
+  .main { margin-right: 0; }
+  .masthead h1 { font-size: 19px; }
+  .stats { gap: 14px; }
+  .summary { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+<button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+<aside class="sidebar" id="sidebar">
+  <a href="https://slownews.kr" target="_blank" rel="noopener" style="text-decoration:none;">
+    <div class="brand">슬로우레터</div>
+  </a>
+  <div class="brand-sub">국무회의 브리핑.</div>
+  <hr class="divider">
+  <div class="nav-label">회의록</div>
+  <a class="nav-link" href="cabinet_meeting_13_briefing.html">제13회 <span style="opacity:.6;font-size:.75rem;">2026-03-31</span></a>
+  <a class="nav-link" href="cabinet_meeting_11_briefing.html">제11회 <span style="opacity:.6;font-size:.75rem;">2026-03-24</span></a>
+  <a class="nav-link" href="cabinet_meeting_10_briefing.html">제10회 <span style="opacity:.6;font-size:.75rem;">2026-03-17</span></a>
+  <a class="nav-link" href="cabinet_meeting_9_briefing.html">제9회 <span style="opacity:.6;font-size:.75rem;">2026-03-10</span></a>
+  <a class="nav-link" href="cabinet_meeting_8_briefing.html">제8회 <span style="opacity:.6;font-size:.75rem;">2026-03-05</span></a>
+  <a class="nav-link" href="cabinet_meeting_6_briefing.html">제6회 <span style="opacity:.6;font-size:.75rem;">2026-02-24</span></a>
+  <a class="nav-link" href="cabinet_meeting_5_briefing.html">제5회 <span style="opacity:.6;font-size:.75rem;">2026-02-10</span></a>
+  <a class="nav-link active" href="cabinet_meeting_4_briefing.html">제4회 <span style="opacity:.6;font-size:.75rem;">2026-02-03</span></a>
+
+  <hr class="divider">
+  <a class="nav-link" href="search.html">안건 검색</a>
+  <a class="nav-link" href="./">전체 목록</a>
+  <div class="sidebar-footer">
+    <hr class="divider">
+    <span style="color:#fdad00;">slownews.kr</span>
+  </div>
+</aside>
+<div class="main">
+<div class="masthead">
+  <div class="label">국무회의 브리핑</div>
+  <h1>제4회 국무회의.</h1>
+  <div class="meta">2026년 2월 3일, 청와대 본관.</div>
+  <div class="lead">
+    1월 수출 600억 불 사상 최고, 창업 중심 국가 대전환을 선언했다.
+    설탕·밀가루·한전 담합 10조 원 엄단, 다주택자 양도세 유예 종료,
+    연명의료제도 개선, 그냥 드림 300개소 확충을 결정한다.
+  </div>
+</div>
+<div class="stats">
+  <div><span class="v">10</span>주요 안건</div>
+  <div><span class="v">26</span>지시·결정 사항</div>
+  <div><span class="v">15</span>주요 워딩</div>
+</div>
+<div class="container">
+<div class="note">
+  회의 영상을 AI 에이전트로 분석·요약하고 데스킹을 거쳤습니다.
+  고유명사 등 일부 표기가 부정확할 수 있습니다.
+  발언은 최대한 원문을 그대로 인용하되, 문답으로 구성하는 과정에서 표현을 다듬었습니다.
+</div>
+<div class="search">
+  <input type="text" id="q" placeholder="안건·발언 검색..." oninput="filter(this.value)">
+</div>
+
+<div class="topic open" id="t-exports_startup">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>1월 수출 600억 불 돌파, 창업 중심 국가로 대전환.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>대통령은 지난달 수출이 1월 기준 사상 최초로 600억 불을 돌파했다고 밝혔다.</li><li>주력 품목 대부분의 수출이 증가하고 시장 다변화 흐름이 공고해졌다.</li><li>그러나 이 지표 개선이 국민 삶의 변화로 이어지려면 대기업·수도권·경력자 중심의 전통적 시스템을 넘어서야 한다고 강조했다.</li><li>AI 대전환에 따라 경제 성과가 소수에 집중되는 경향을 막기 위해 누구나 아이디어만 있으면 창업할 수 있도록 문턱을 낮추고 파격적인 제도 혁신과 자금 지원이 필요하다고 했다.</li><li>창업 관련 규제 전반을 제로 베이스에서 재검토하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"인공지능 시대에는 도전과 실패를 성공의 밑거름으로 삼는 사회가 더 큰 번영의 기회를 누릴 수 있습니다. 창업 중심 국가로의 대전환에 정부 역량을 총집중해야 합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>대통령 비서실</strong> 창업 관련 규제 제로 베이스 재검토 + 파격적 제도 혁신·자금 지원</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-giving_dream">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>희망 나눔 5,124억 원 사상 최고, 그냥 드림 300개소 확충.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>희망 2026 나눔 캠페인 결과 사상 최초로 5,124억 원이 모금되었다.</li><li>대통령은 경제 상황이 좋지 않음에도 사상 최고를 기록한 것은 정말 대단한 일이라며 감사를 표했다.</li><li>복지 사각지대 국민을 위한 &#x27;그냥 드림&#x27; 사업은 현재 67개 시군구 107개 코너에서 운영 중이며, 두 달간 3만 6천여 명이 이용했다.</li><li>이 중 16.8%가 기본 복지 상담, 6.2%가 심층 상담으로 연계되어 209명에게 공적 복지 서비스가 제공되었다.</li><li>5월 본사업 전환 시 300개소 이상으로 확충할 예정이다.</li><li>대통령은 시군구의 절반도 안 되는 곳에서만 진행되고 있다고 지적하며 주민자치센터 등을 활용해 신속하게 확대하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"시군구의 절반도 안 되는 지역에서만 진행되고 있습니다. 예산이 적게 드는 사업이니 주민자치센터 등을 활용해 신속하게 확대하십시오."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">지식재산처장</span><br>"공공기관 미활용 특허를 중소기업이나 개인에게 개방하는 &#x27;기술판 그냥 드림&#x27; 사업도 제안합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>복지부</strong> 그냥 드림 코너 300개소 이상 확충 — 5월 본사업 전환</li>
+      <li><strong>행안부</strong> 지방정부 신속 참여 협조 + 자원봉사센터 인력 배치</li>
+      <li><strong>지식재산처</strong> 공공기관 미활용 특허 개방 — &#x27;기술판 그냥 드림&#x27; 검토</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-livestock_prices">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>가축 전염병 방역 총동원, 설 명절 물가 안정.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>고병원성 조류인플루엔자, 아프리카 돼지열병, 구제역 등이 계속 발생하고 있다.</li><li>방역 당국에 가용한 수단을 모두 동원하라고 지시하고, 정부 방역에 적극 협력한 농가가 피해 보상을 받을 수 있도록 챙기라고 했다.</li><li>방역 공무원들의 안전과 노고에 대한 보상도 당부했다.</li><li>설 명절을 앞두고 주요 성수품 공급 확대와 농축산물 할인 지원 강화 등 적극적이고 선제적인 장바구니 물가 대책을 빠르게 집행하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"방역에 적극 협력한 농가들이 피해 보상을 받을 수 있도록 잘 챙기고, 방역 공무원들의 안전과 노고에 대한 보상도 챙겨주세요."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>대통령 비서실</strong> 가축전염병 확산 차단 총동원 + 방역 공무원 보상</li>
+      <li><strong>대통령 비서실</strong> 설 명절 장바구니 물가 대책 신속 집행</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-pm_discipline">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>총리: 부동산·비리·공직 기강, 한다면 하는 정부.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>국무총리는 강화군 색동원 성추행 진상 규명과 피해자 보호를 지시했다.</li><li>10년 이상 정부·지자체·관련 기관 어디서도 걸러내지 못했다는 점이 충격적이라며, 신속한 수사와 함께 사회적 약자 이용 시설 전체에 대한 점검을 시작하겠다고 했다.</li><li>기술 유출 혐의 기소, 방첩사 민간인 사찰, 구시대적 간부 모시기 문화 등을 지적하며 원천 근절에 총력을 다하겠다고 했다.</li><li>주가 5천 포인트 회복을 언급하며, 주가 상승은 기업 활동에 도움이 되지만 집값 상승은 투자 자산을 묶어 사회 경제 구조를 왜곡시키므로 같은 선상에 놓고 판단해서는 안 된다고 지적했다.</li><li>공직자 포상을 적극적으로 시행하여 능동적으로 일할 수 있는 분위기를 만들라고 당부했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">국무총리</span><br>"부동산 정책, 비리 근절, 공직 기강 모두 &#x27;한다면 하는&#x27; 대통령, 정부, 총리라는 것을 확실하게 보여주겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">국무총리</span><br>"주가 상승은 기업 활동에 도움이 되고 누구도 피해를 보지 않지만, 집값 상승은 사회 경제 구조를 왜곡시킵니다. 같은 선상에 놓고 판단해서는 안 됩니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>국무총리실</strong> 강화군 색동원 진상 규명 + 사회적 약자 시설 전체 점검</li>
+      <li><strong>대통령 비서실</strong> 공직자 포상 적극 시행 — 능동적 업무 분위기 조성</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-end_of_life">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>연명의료결정제도 개선, 재택 임종 돌봄 체계 구축.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>보건복지부가 연명의료결정제도 개선 방안을 보고했다.</li><li>연명의료를 원치 않는 비율은 77%로 높지만 실제 중단 환자는 전체 사망자의 19.5%에 불과하다.</li><li>사전연명의료의향서 등록기관을 주민센터 등으로 확대하고, 연명의료 계획서 작성 시기를 &#x27;말기 시점&#x27;에서 &#x27;말기가 예견되는 시점&#x27;으로 확대한다.</li><li>의료기관 호스피스를 확충하고, 가정용 호스피스와 재택 의료센터를 늘려 재가 임종 방안을 마련한다.</li><li>자택 임종 시 변사 사건으로 처리되는 문제의 해결 방안도 마련하기로 했다.</li><li>대통령은 건강보험료 지출 감소 효과를 언급하며 제도의 중요성을 강조했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"본인과 가족의 동의 하에 연명의료를 중단할 수 있도록 하는 제도가 중요합니다."</div>
+        <div class="ex-resp"><span class="role">복지부 장관</span><br>"연명의료를 결정하더라도 제대로 된 말기 돌봄을 받지 못하는 문제를 해결하기 위해 재택 임종 돌봄과 호스피스를 강화하겠습니다."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">법제처장</span><br>"사전연명의료의향서 등록기관을 주민센터로 확대하고, 자택 사망 시 변사 처리 문제 해결을 촉구합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>복지부</strong> 연명의료의향서 등록기관 확대 + 작성 시기 &#x27;말기 예견 시점&#x27;으로 확대</li>
+      <li><strong>복지부</strong> 호스피스 확충 + 재택 임종 돌봄 체계 구축</li>
+      <li><strong>법제처</strong> 자택 사망 시 변사 처리 문제 해결 방안 마련</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-housing_tax">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>다주택자 양도세 중과 유예 종료, 정책은 한 번 정하면 그대로.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>재경부가 다주택자 양도소득세 중과 유예 종료 방안을 보고했다.</li><li>2022년부터 4년간 한시 유예해왔으나 정책 신뢰성을 위해 정상화한다.</li><li>강남 3구·용산 등 기존 지역은 5월 9일까지 계약+3개월 이내 잔금 시 유예 적용, 신규 조정 지역은 5월 9일까지 계약+6개월 이내 잔금 시 유예를 적용한다.</li><li>대통령은 과거 1년씩 3번 유예한 사례를 지적하며 &#x27;정책은 한 번 정하면 그대로 해야 한다&#x27;고 강조했다.</li><li>부동산 불패 신화와 이해관계자들의 영향을 경계하며, 완벽하게 합리적이고 공정하게 설계·집행하라고 지시했다.</li><li>세입자 문제로 인한 불합리한 결과에 대해서는 예외적 유예를 검토하기로 했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"정책은 한 번 정하면 그대로 해야 합니다. 보완은 다른 방식으로 해야지 정책 자체를 변형하면 안 됩니다. &#x27;아마&#x27;라는 표현을 쓰지 마세요."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-resp"><span class="role">행안부 장관</span><br>"다주택자 양도세 중과 유예는 지난 정부의 &#x27;정권 자본에 대한 기념품&#x27;이었습니다. 다주택자 기준을 법률로 정하도록 개정을 요청합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>재경부</strong> 다주택자 양도세 중과 유예 종료 — 법령 개정 추진</li>
+      <li><strong>재경부</strong> 토지 거래 허가제 보완 + 편법 증여 등 이상 거래 단속 강화</li>
+      <li><strong>법제처</strong> 다주택자 기준을 시행령이 아닌 법률로 이전</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-collusion">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>설탕·밀가루·한전 담합 총 10조 원, 과징금 상한 30%로 상향.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>검찰총장 직무대행이 민생안정 침해사범 수사 성과를 보고했다.</li><li>설탕(3조 2,700억), 밀가루(6조), 한전 입찰(6,700억) 담합의 전모를 밝혀 52명을 기소했다.</li><li>담합으로 설탕 가격 최고 66.7%, 밀가루 가격 최고 42.4% 인상되었다.</li><li>공정위는 과징금 상한을 매출의 20%에서 30%로 상향하는 법 개정안을 준비 중이다.</li><li>대통령은 한전 입찰 담합 과징금이 7%에 불과한 점을 지적하며 시행령을 빨리 고치라고 지시했다.</li><li>범죄 수익 몰수·추징을 위한 간주·추정 규정 입법도 제안했다.</li><li>공정위 전속 고발권이 권력 남용의 가능성을 키운다며 폐지 또는 국민에게 고발권을 부여하는 방안을 검토하라고 지시했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"한전 입찰 담합 과징금이 7%에 불과합니다. 시행령을 빨리 고치세요."</div>
+      </div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"공정위의 전속 고발권은 권력 남용의 가능성을 키웁니다. 정상적인 사회가 아닙니다. 폐지하거나 국민에게 고발권을 부여하는 방안을 검토하세요."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>공정위</strong> 과징금 상한 30%로 상향 — 공정거래법 개정안 준비</li>
+      <li><strong>공정위</strong> 가격 재결정 명령 적극 활용 + 시정조치 운영지침 개정</li>
+      <li><strong>법제처</strong> 담합 법정형 상향 + 부당이득 몰수·추징 간주 규정 입법</li>
+      <li><strong>대통령 비서실</strong> 전속 고발권 폐지 또는 고발권 확대 방안 검토</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-illegal_fishing">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>외국어선 불법 조업 벌금 3억→15억, 담보금도 상향.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>해양수산부가 외국어선 불법 조업 경제적 제재 강화 방안을 보고했다.</li><li>벌금액을 현행 3억 원에서 15억 원으로 대폭 상향하고, 법무부와 협조하여 담보금 부과 기준도 벌금에 맞춰 상향한다.</li><li>어선 톤급에 관계없이 최고 금액을 부과하는 방안을 적극 검토한다.</li><li>중대 위반 어선은 담보금 납부 시에도 중국 해경에 인계하여 중국에서도 처벌받게 한다.</li><li>과징금 제도 병행 도입은 현장 혼선 우려로 일단 보류하기로 했다.</li><li>대통령은 중국 당국이 방임이나 조장하는 것이 아님을 확인하고, 15억 원이면 보증금을 모아 내기 어려워 상당한 제재 효과가 있을 것으로 판단했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"벌금액을 15억 원으로 올리면 보증금을 모아 내기 어려울 테니 상당한 제재 효과가 있을 것입니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>해수부</strong> 외국어선 벌금 3억→15억 상향 — 국회 논의 추진</li>
+      <li><strong>해수부+법무부</strong> 담보금 부과 기준 상향 + 톤급 무관 최고 금액 부과 검토</li>
+      <li><strong>해수부</strong> 중대 위반 어선 중국 해경 인계 → 현지 처벌</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-data_privacy">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>공공부문 개인정보 해킹 취약점 발견, 긴급 점검.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>개인정보보호위원회가 공공부문 개인정보보호 강화를 요청했다.</li><li>감사원 모의 해킹에서 주민등록번호 탈취 가능성이 확인되었고, 공공자전거 따릉이 개인정보 유출 신고도 접수되었다.</li><li>기본적인 안전수칙 위반이 많은 것이 원인이다.</li><li>653개 공공기관을 대상으로 긴급 실태 점검을 실시하고, 주민등록번호 암호화, 해킹 취약점 점검을 요청했다.</li><li>대통령은 국가데이터처가 개인정보보호위원회와 협력하여 국가 데이터 전반을 관리해야 한다고 강조했다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"국가데이터처는 데이터 활용에 중점을 두고 개인정보보호위원회와 협력하여 국가 데이터 전반을 관리해야 합니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>전 부처</strong> 공공부문 개인정보보호 긴급 실태 점검 — 653개 기관</li>
+      <li><strong>국가데이터처</strong> 국가 데이터 기본법 제정 추진</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="topic" id="t-renewable_public">
+  <div class="topic-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="topic-info">
+      <h3>공공기관 재생에너지 2%→60% 목표, K-R200 펀드 조성.</h3>
+    </div>
+    <span class="topic-chevron">›</span>
+  </div>
+  <div class="topic-body">
+    <div class="summary"><ul><li>기후부가 공공기관 재생에너지 확대 협조를 요청했다.</li><li>현재 공공기관 재생에너지 전력 사용 비중은 수자원공사를 제외하면 평균 2%에 불과하다.</li><li>2030년까지 60% 달성이 목표이며, 코레일 철도 부지, 도로공사 도로 부지, 농어촌공사 저수지, 수자원공사 댐 수면 등을 활용하면 태양광 확대가 충분히 가능하다.</li><li>K-R200 펀드를 조성하여 지원하고, 공공기관 아리백 출범식도 개최할 예정이다.</li><li>대통령은 햇빛소득·바람소득 사업의 속도와 규모를 챙기라고 지시했다.</li><li>재생에너지 생산 지역의 원거리 송전 비용 문제를 해결하기 위해 지역별 전력 요금 차등제를 설계 중이다.</li></ul></div>
+    <div class="exchanges">
+      <div class="ex-label">대통령 발언 / 부처 답변</div>
+      <div class="exchange">
+        <div class="ex-pres"><span class="role">대통령</span><br>"햇빛소득, 바람소득 사업의 속도와 규모를 챙겨주세요."</div>
+        <div class="ex-resp"><span class="role">기후부</span><br>"지역별 전력 요금 차등제를 설계 중입니다. 태양광은 100원대 이하로 낮출 수 있습니다."</div>
+      </div>
+    </div>
+    <div class="act-label">지시·결정사항</div>
+    <div class="actions"><ul>
+      <li><strong>기후부</strong> 공공기관 K-R200 펀드 조성 + 아리백 출범식 개최</li>
+      <li><strong>전 부처</strong> 소속 공공기관 재생에너지 확대 — 2030년 60% 목표</li>
+      <li><strong>기후부</strong> 지역별 전력 요금 차등제 설계</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="footer">
+  Lilys AI 트랜스크립트 기반 · 3개 세그먼트 · 14,721자 분석<br>
+  요약은 AI가, 편집 판단은 사람이 합니다<br>
+</div>
+</div>
+</div>
+<script>
+function filter(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.topic').forEach(el => {
+    el.style.display = (!q || el.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

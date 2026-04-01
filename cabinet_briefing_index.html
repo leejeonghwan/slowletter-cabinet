@@ -96,8 +96,7 @@ body {
   <div class="nav-label">회의록</div>
   <div id="meeting-nav"><!-- meetings.json에서 자동 로딩 --></div>
   <hr class="divider">
-  <a class="nav-link" href="search.html">안건 검색</a>
-  <a class="nav-link" href="./">전체 목록</a>
+  <a class="nav-link" href="./">빠른 검색</a>
   <div class="sidebar-footer">
     <hr class="divider">
     <span style="color:#fdad00;">slownews.kr</span>
@@ -132,7 +131,8 @@ var descriptions = {
   9: '물가·에너지·금융 3중 대응, 포상금 혁신 선언.',
   8: '중동 전쟁 6일째, 비상 경제·에너지 대응.',
   6: '브라질 국빈 방문, K-관광 강국, 담합 제재.',
-  5: '국제질서 변화 대응, 외국인력 정책, AI 전략.'
+  5: '국제질서 변화 대응, 외국인력 정책, AI 전략.',
+  4: '수출 600억 불, 창업 대전환, 연명의료·담합 제재.'
 };
 fetch('data/meetings.json')
   .then(function(r) { return r.json(); })
