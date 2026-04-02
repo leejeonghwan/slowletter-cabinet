@@ -238,17 +238,12 @@ mark { background: #fef08a; padding: 0 2px; border-radius: 2px; }
 <div class="hero">
   <div class="label">슬로우레터</div>
   <h1>국무회의 브리핑.</h1>
-  <div class="lead">
-    대통령 국무회의 영상을 AI 에이전트로 분석·요약하고 데스킹을 거칩니다.
-    대통령 발언, 부처 답변, 지시·결정사항을 안건별로 정리합니다.
-  </div>
+  <div class="lead"></div>
 </div>
 
 <div class="stats-bar">
   <div><span class="v" id="stat-meetings">-</span>회의</div>
   <div><span class="v" id="stat-topics">-</span>안건</div>
-  <div><span class="v" id="stat-actions">-</span>지시사항</div>
-  <div><span class="v" id="stat-exchanges">-</span>주요 워딩</div>
 </div>
 
 <div class="container">
@@ -561,17 +556,11 @@ function updateFilterUI() {
 
 function updateStats() {
   var meetings = new Set();
-  var totalActions = 0;
-  var totalExchanges = 0;
   DATA.forEach(function(item) {
     meetings.add(item.meeting);
-    totalActions += (item.actions || []).length;
-    totalExchanges += (item.exchanges || []).length;
   });
   document.getElementById('stat-meetings').textContent = meetings.size;
   document.getElementById('stat-topics').textContent = DATA.length;
-  document.getElementById('stat-actions').textContent = totalActions;
-  document.getElementById('stat-exchanges').textContent = totalExchanges;
 }
 
 function handleHash() {
