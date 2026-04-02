@@ -279,18 +279,8 @@ var currentMeeting = null;  // null = latest meeting (default), 'all' = show all
 var currentQuery = '';
 var isSearchMode = false;
 
-var meetingFiles = {
-  2: 'cabinet_meeting_2_briefing.html',
-  3: 'cabinet_meeting_3_briefing.html',
-  4: 'cabinet_meeting_4_briefing.html',
-  5: 'cabinet_meeting_5_briefing.html',
-  6: 'cabinet_meeting_6_briefing.html',
-  8: 'cabinet_meeting_8_briefing.html',
-  9: 'cabinet_meeting_9_briefing.html',
-  10: 'cabinet_meeting_10_briefing.html',
-  11: 'cabinet_meeting_11_briefing.html',
-  13: 'cabinet_meeting_13_briefing.html'
-};
+// 개별 페이지 폐지, 해시 링크(#m11 등)로 통합
+var meetingFiles = {};
 
 var meetingDescriptions = {
   13: '중동 전쟁 한 달, 전속고발제 개편 논의.',
@@ -359,7 +349,7 @@ function renderCard(item, q) {
       }).join('') + '</ul></div>';
   }
 
-  var linkHtml = '<a class="briefing-link" href="' + file + '#' + (item.id || '') + '">' + item.meeting + '회 국무회의 전체 보기. &rarr;</a>';
+  var linkHtml = '<a class="briefing-link" href="#m' + item.meeting + '">' + item.meeting + '회 국무회의 전체 보기. &rarr;</a>';
 
   return '<div class="topic-card" id="' + anchor + '">' +
     '<div class="topic-head" onclick="toggleCard(this)">' +
